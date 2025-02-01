@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { Footer, Header } from "@/components/shared";
+import { Providers } from "@/components/shared/provider";
+import { StoreProvider } from "@/store/storeProvider";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+const Roboto = localFont({
+  src: "./fonts/Roboto.woff2",
+  variable: "--font-Roboto",
 });
 
 export const metadata: Metadata = {
@@ -24,12 +21,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
+    <StoreProvider>
+      <html lang="en">
+        <Providers>
+          <body className={`${Roboto.variable} antialiased`}>
+            <div className="bg-white mb-2 p-2 border-b border-[#1A202C] border-opacity-40">
+              <Header />
+            </div>
+            {children}
+            <div className="bg-white mt-8 p-2 border-t border-[#1A202C] border-opacity-40">
+              <Footer />
+            </div>
+          </body>
+        </Providers>
+      </html>
+    </StoreProvider>
   );
 }

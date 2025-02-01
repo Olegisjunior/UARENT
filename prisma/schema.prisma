@@ -1,0 +1,95 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  =  "postgresql"
+  url       = env("POSTGRES_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model User {
+  id         Int      @id @default(autoincrement()) @unique
+  name       String
+  email      String   @unique
+  password   String
+  provider   String?
+  providerId String?
+  comments    Comment[]
+  role       UserRole @default(USER)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Type {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  cars Car[]
+}
+
+model Car {
+  id             Int      @id @default(autoincrement())
+  name           String
+  imageUrl       String
+  imageInteriors Json
+  description    String
+  price          Int
+  transmision    String
+  fuel           Int
+  seats          Int
+  brand          String
+  location       String
+  GeneralAvailability GeneralAvailability[]  
+  reservations     Reservation[]
+  typeId         Int
+  type           Type     @relation(fields: [typeId], references: [id])
+  comments       Comment[] 
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model GeneralAvailability {
+  id              Int      @id @default(autoincrement())
+  carId           Int
+  availableHours  Json    
+  car             Car      @relation(fields: [carId], references: [id])
+}
+
+model Reservation {
+  id         Int      @id @default(autoincrement())
+  car        Car      @relation(fields: [carId], references: [id])
+  carId      Int
+  startDate  DateTime
+  endDate    DateTime
+  startTime  String
+  endTime    String
+  firstName    String
+  lastName     String
+  email        String
+  phone        String
+  customerId   String
+  cardNumber   String?  // Опціонально
+  expiryDate   String?  // Опціонально
+  cvv          String?  // Опціонально
+  status     String   
+  paymentMethod String   
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Comment {
+  id          Int         @id @default(autoincrement())
+  content     String
+  rating      Int
+  userId      Int        
+  user        User        @relation(fields: [userId], references: [id])
+  createdAt   DateTime    @default(now())
+  carId       Int
+  car         Car         @relation(fields: [carId], references: [id])
+}
+
+
+enum UserRole {
+  ADMIN
+  USER
+}

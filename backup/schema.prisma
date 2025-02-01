@@ -1,0 +1,87 @@
+// generator client {
+//   provider = "prisma-client-js"
+// }
+
+// datasource db {
+//   provider  = "postgresql"
+//   url       = env("POSTGRES_URL")
+//   directUrl = env("POSTGRES_URL_NON_POOLING")
+// }
+
+// model User {
+//   id         Int      @id @default(autoincrement())
+//   name       String
+//   email      String   @unique
+//   password   String
+//   provider   String?
+//   providerId String?
+//   role       UserRole @default(USER)
+//   createdAt  DateTime @default(now())
+//   updatedAt  DateTime @updatedAt
+//   cart       Cart?
+//   order      Order[]
+// }
+
+// model Type {
+//   id   Int    @id @default(autoincrement())
+//   name String @unique
+//   cars Car[]
+// }
+
+// model Car {
+//   id             Int      @id @default(autoincrement())
+//   name           String
+//   imageUrl       String
+//   description    String
+//   price          Int
+//   transmision    String
+//   fuel           Int
+//   seats          Int
+//   brand          String
+//   location       String
+//   availableFrom  DateTime
+//   availableTo    DateTime
+//   availableTimes String
+//   typeId         Int
+//   createdAt      DateTime @default(now())
+//   updatedAt      DateTime @updatedAt
+//   type           Type     @relation(fields: [typeId], references: [id])
+// }
+
+// model Cart {
+//   id          Int      @id @default(autoincrement())
+//   userId      Int?     @unique
+//   totalAmount Int      @default(0)
+//   token       String
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+//   user        User?    @relation(fields: [userId], references: [id])
+// }
+
+// model Order {
+//   id          Int         @id @default(autoincrement())
+//   userId      Int?
+//   token       String
+//   totalAmount Int
+//   status      OrderStatus
+//   paymentId   String?
+//   Car         Json
+//   name        String
+//   email       String
+//   phone       String
+//   address     String
+//   createdAt   DateTime    @default(now())
+//   updatedAt   DateTime    @updatedAt
+//   user        User?       @relation(fields: [userId], references: [id])
+// }
+
+// enum OrderStatus {
+//   PENDING
+//   SUCCEEDED
+//   CANCELLED
+// }
+
+// enum UserRole {
+//   ADMIN
+//   USER
+// }
