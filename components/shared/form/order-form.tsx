@@ -9,15 +9,11 @@ import { Container } from "../container";
 import { useRouter } from "next/navigation";
 // import { encodeId } from "@/lib/hashids";
 import { resetOrder } from "@/store/OrderSlice";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Props = {
   carId: number;
-  user: {
-    id: string;
-    name: string;
-    image?: string | null;
-    role: any;
-  };
+  session: any;
   reservation?:
     | {
         status: string;
@@ -52,10 +48,17 @@ interface FormData {
   cvv?: string;
 }
 
-export const OrderForm: React.FC<Props> = ({ user, carId, reservation }) => {
+export const OrderForm: React.FC<Props> = ({ session, carId, reservation }) => {
   const [paymentMethod, setPaymentMethod] = React.useState("card");
   const dispatch = useDispatch();
   const orderDetails = useSelector((state: RootState) => state.order);
+  const [isLoading, setIsloading] = React.useState(true);
+
+  React.useEffect(() => {
+    if(session) {
+      setIsloading(false);
+    }
+  }, [session]);
 
   const router = useRouter();
 
@@ -87,7 +90,7 @@ export const OrderForm: React.FC<Props> = ({ user, carId, reservation }) => {
       lastName: formData.lastName,
       email: formData.email,
       phone: formData.phone,
-      customerId: user.id,
+      customerId: session.id,
       ...(formData.paymentMethod === "card" && {
         cardNumber: formData.cardNumber,
         expiryDate: formData.expiryDate,
@@ -131,6 +134,37 @@ export const OrderForm: React.FC<Props> = ({ user, carId, reservation }) => {
 
   return (
     <Container>
+      {isLoading ? (<div className="space-y-4">
+      <div className="flex flex-col gap-4 justify-center items-center bg-white rounded-md my-2 w-full p-4">
+        {["Ім'я", "Прізвище", "Email", "Телефон"].map((label, index) => (
+          <div key={index} className="flex items-center gap-3 w-full">
+            <Skeleton className="w-32 h-6" />
+            <Skeleton className="w-[600px] h-10 rounded" />
+          </div>
+        ))}
+      </div>
+      
+      <div className="flex flex-col gap-4 justify-center items-center bg-white rounded-md my-2 w-full p-4">
+        <div className="flex items-center gap-3 w-full">
+          <Skeleton className="w-32 h-6" />
+          <Skeleton className="w-[600px] h-10 rounded" />
+        </div>
+        
+        <div className="flex flex-col gap-4 w-full">
+          <Skeleton className="w-full h-10 rounded" />
+          <div className="flex flex-col gap-4 justify-center items-center w-full">
+            {["Номер карти", "Термін дії", "CVV"].map((label, index) => (
+              <div key={index} className="flex items-center gap-3 w-full">
+                <Skeleton className="w-32 h-6" />
+                <Skeleton className="w-[600px] h-10 rounded" />
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        <Skeleton className="w-fit h-10 px-4 rounded bg-blue-500" />
+      </div>
+    </div>) : (
       <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4 ">
         <div className="flex flex-col gap-4 justify-center items-center bg-white rounded-md my-2 w-full  p-4">
           <div className="flex items-center gap-3">
@@ -282,11 +316,15 @@ export const OrderForm: React.FC<Props> = ({ user, carId, reservation }) => {
             </div>
           ) : null}
 
+          <p className="text-sm text-gray-500">
+            Щоб створити замовлення, заповніть всі поля форми вище.
+          </p>
           <Button type="submit" disabled={orderDetails.pickUpLocation === null} className="w-fit p-2 text-white bg-blue-500 rounded hover:bg-blue-600">
             Створити замовлення
           </Button>
         </div>
       </form>
+      )}
     </Container>
   );
 };

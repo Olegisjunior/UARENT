@@ -20,3 +20,4 @@ export { Footer } from "./footer";
 export { FormSkeleton } from "./form-skeleton";
 export { CarsGroupContainer } from "./cars-group-container";
 export { ReservSkeleton } from "./reserv-skeleton";
+export {ReservationList} from "./reservation-list";
