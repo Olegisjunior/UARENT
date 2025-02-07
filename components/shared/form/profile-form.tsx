@@ -6,7 +6,10 @@ import { Container } from "../container";
 import { User } from "@prisma/client";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RegisterFormSchema, TRegisterFormValues } from "../modal/forms/schemas";
+import {
+  RegisterFormSchema,
+  TRegisterFormValues,
+} from "../modal/forms/schemas";
 import { FormInput } from "./form-input";
 import { updateUserInfo } from "@/app/actions";
 
@@ -44,21 +47,55 @@ export const ProfileForm: React.FC<Props> = ({ data }) => {
   };
 
   return (
-    <Container className="my-10 flex flex-col justify-center items-center ">
+    <Container className="my-10 flex flex-col justify-center items-center mx-5 lg:mx-auto ">
       <h1 className="font-bold text-2xl">Особисті дані</h1>
       <FormProvider {...form}>
-        <form className="flex flex-col gap-5 w-96 mt-10" onSubmit={form.handleSubmit(onSubmit)}>
-          <FormInput name="email" label="Email" required />
-          <FormInput name="name" label="Ім'я" required />
+        <form
+          className="flex flex-col justify-center items-center gap-5 w-96 mt-10"
+          onSubmit={form.handleSubmit(onSubmit)}
+        >
+          <FormInput
+            className="w-[300px] lg:w-[500px]"
+            name="email"
+            label="Email"
+            required
+          />
+          <FormInput
+            className="w-[300px] lg:w-[500px]"
+            name="name"
+            label="Ім'я"
+            required
+          />
 
-          <FormInput type="password" name="password" label="Новий пароль" required />
-          <FormInput type="password" name="confirmPassword" label="Повторіть пароль" required />
+          <FormInput
+            className="w-[300px] lg:w-[500px]"
+            type="password"
+            name="password"
+            label="Новий пароль"
+            required
+          />
+          <FormInput
+            className="w-[300px] lg:w-[500px]"
+            type="password"
+            name="confirmPassword"
+            label="Повторіть пароль"
+            required
+          />
 
-          <Button disabled={form.formState.isSubmitting} className="text-base" type="submit">
+          <Button
+            disabled={form.formState.isSubmitting}
+            className="text-base w-[200px]"
+            type="submit"
+          >
             Зберегти
           </Button>
 
-          <Button onClick={onClickSignOut} disabled={form.formState.isSubmitting} className="text-base" type="button">
+          <Button
+            onClick={onClickSignOut}
+            disabled={form.formState.isSubmitting}
+            className="text-base w-[200px]"
+            type="button"
+          >
             Вийти
           </Button>
         </form>

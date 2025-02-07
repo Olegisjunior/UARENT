@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Footer, Header } from "@/components/shared";
+import { ToastContainer } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 import { Providers } from "@/components/shared/provider";
 import { StoreProvider } from "@/store/storeProvider";
 
@@ -25,9 +27,21 @@ export default function RootLayout({
       <html lang="en">
         <Providers>
           <body className={`${Roboto.variable} antialiased`}>
-            <div className="bg-white mb-2 p-2 border-b border-[#1A202C] border-opacity-40">
+            <div className="bg-white mb-2 p-2 border-b w-full border-[#1A202C] border-opacity-40">
               <Header />
             </div>
+            <ToastContainer
+              position="bottom-left"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick={false}
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
             {children}
             <div className="bg-white mt-8 p-2 border-t border-[#1A202C] border-opacity-40">
               <Footer />

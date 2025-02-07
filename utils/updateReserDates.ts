@@ -22,10 +22,17 @@ export async function UpdateDates() {
         prisma.reservation.update({
           where: { id: reservation.id },
           data: {
-            startDate: new Date(new Date(reservation.startDate).getTime() + 10 * 24 * 60 * 60 * 1000),
-            endDate: new Date(new Date(reservation.endDate).getTime() + 10 * 24 * 60 * 60 * 1000),
+            startDate: new Date(
+              new Date(reservation.startDate).getTime() +
+                10 * 24 * 60 * 60 * 1000
+            ),
+            endDate: new Date(
+              new Date(reservation.endDate).getTime() + 10 * 24 * 60 * 60 * 1000
+            ),
             startTime: reservation.startTime,
             endTime: reservation.endTime,
+            createdAt: new Date(),
+            updatedAt: new Date(),
           },
         })
       )

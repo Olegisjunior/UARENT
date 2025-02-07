@@ -1,24 +1,40 @@
-import { CarsGroup, CarsGroupContainer, Container, Filters } from "@/components/shared";
+import {
+  CarsGroupContainer,
+  Container,
+  Filters,
+  Sorts,
+} from "@/components/shared";
 import { prisma } from "@/prisma/prisma-client";
 import { format } from "date-fns";
 
-export default async function Cars(props: { searchParams: Record<string, string> }) {
+export default async function Cars(props: {
+  searchParams: Record<string, string>;
+}) {
   const params = await props.searchParams;
 
   const location = params.location || "";
   const pickUpDate = params.pick ? new Date(params.pick) : undefined;
   const dropOffDate = params.drop ? new Date(params.drop) : undefined;
   const pickUpTime = pickUpDate && format(pickUpDate, "HH:mm");
+  const dropOffTime = dropOffDate && format(dropOffDate, "HH:mm");
 
   const types = params.types ? params.types.split(",") : [];
   const brands = params.brands ? params.brands.split(",") : [];
   const capacitys = params.capacitys ? params.capacitys.split(",") : [];
-  const priceRange = params.priceRange ? params.priceRange.split(",").map(Number) : [70, 300];
+  const priceRange = params.priceRange
+    ? params.priceRange.split(",").map(Number)
+    : [70, 300];
+  const sortField = params.sortField || "price";
+  const sortOrder = params.sortOrder === "desc" ? "desc" : "asc";
 
   const filterConditions: any = {
     ...(location && { location }),
     ...(types.length > 0 && {
-      typeId: { in: types.map((type) => getTypeId(type as "sport" | "sedan" | "suv" | "electric")) },
+      typeId: {
+        in: types.map((type) =>
+          getTypeId(type as "sport" | "sedan" | "suv" | "electric")
+        ),
+      },
     }),
     ...(brands.length > 0 && { brand: { in: brands } }),
     ...(capacitys.length > 0 && {
@@ -52,19 +68,29 @@ export default async function Cars(props: { searchParams: Record<string, string>
         },
       },
     },
+    orderBy: {
+      [sortField]: sortOrder,
+    },
     include: {
       GeneralAvailability: true,
     },
   });
 
   return (
-    <div className="mx-auto w-[1440px] mt-5">
-      <Container className="flex gap-5">
-        <div className="w-[300px] py-5 bg-white">
+    <div className="mt-5">
+      <Container className="flex flex-col xl:flex-row gap-5">
+        <div className="w-full h-fit hidden xl:flex  xl:justify-start  xl:gap-0   xl:w-[300px] py-5 xl:bg-white">
           <Filters />
         </div>
-
-        <CarsGroupContainer cars={cars} cols={3} />
+        <div className="flex flex-col w-full gap-5">
+          <div className="flex justify-between mx-10 xl:mx-5 xl:justify-end items-center gap-10">
+            <div className="xl:hidden flex">
+              <Filters />
+            </div>
+            <Sorts />
+          </div>
+          <CarsGroupContainer cars={cars} cols={3} />
+        </div>
       </Container>
     </div>
   );

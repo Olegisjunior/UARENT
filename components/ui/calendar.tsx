@@ -188,27 +188,54 @@ type Calendar = {
     | undefined;
   pickUpDate?: Date;
   selected: Date | undefined;
+  defaultCellInCalendar?: boolean;
   onSelect: (date: Date | undefined) => void;
 };
 
-function Calendar({ className, classNames, reservation, pickUpDate, selected, onSelect, showOutsideDays = true, ...props }: Calendar & CalendarProps) {
+function Calendar({
+  className,
+  classNames,
+  reservation,
+  pickUpDate,
+  selected,
+  onSelect,
+  showOutsideDays = true,
+  defaultCellInCalendar,
+  ...props
+}: Calendar & CalendarProps) {
   const today = new Date();
   const maxDate = new Date(today);
   maxDate.setMonth(maxDate.getMonth() + 1);
   maxDate.setDate(today.getDate());
 
-  const reserved = reservation ? reservation.flatMap((res) => eachDayOfInterval({ start: startOfDay(new Date(res.startDate)), end: startOfDay(new Date(res.endDate)) })) : [];
+  const reserved = reservation
+    ? reservation.flatMap((res) =>
+        eachDayOfInterval({
+          start: startOfDay(new Date(res.startDate)),
+          end: startOfDay(new Date(res.endDate)),
+        })
+      )
+    : [];
 
   const freeDays: Date[] = [];
   for (let d = new Date(today); d <= maxDate; d.setDate(d.getDate() + 1)) {
-    const isReserved = reserved.some((res) => res.toString() === startOfDay(d).toString());
+    const isReserved = reserved.some(
+      (res) => res.toString() === startOfDay(d).toString()
+    );
 
     if (!isReserved) {
       freeDays.push(new Date(d));
     }
   }
 
-  const disabledDaysReserv = reservation ? reservation.flatMap((res) => eachDayOfInterval({ start: startOfDay(new Date(res.startDate)), end: startOfDay(new Date(res.endDate)) })) : [];
+  const disabledDaysReserv = reservation
+    ? reservation.flatMap((res) =>
+        eachDayOfInterval({
+          start: startOfDay(new Date(res.startDate)),
+          end: startOfDay(new Date(res.endDate)),
+        })
+      )
+    : [];
 
   // const disabledDaysAfterReserv =
   //   pickUpDate && reservation
@@ -230,41 +257,66 @@ function Calendar({ className, classNames, reservation, pickUpDate, selected, on
   const disabledDaysAfterReserv =
     pickUpDate && reservation
       ? (() => {
-          const reservationDates = reservation.flatMap((res) => eachDayOfInterval({ start: startOfDay(new Date(res.startDate)), end: startOfDay(new Date(res.endDate)) }));
+          const reservationDates = reservation.flatMap((res) =>
+            eachDayOfInterval({
+              start: startOfDay(new Date(res.startDate)),
+              end: startOfDay(new Date(res.endDate)),
+            })
+          );
           if (!reservationDates.length) return [];
 
           for (const resDate of reservationDates) {
             if (startOfDay(pickUpDate) < resDate) {
-              return [{ before: startOfDay(pickUpDate) }, { after: new Date(resDate.setDate(resDate.getDate() - 1)) }];
+              return [
+                { before: startOfDay(pickUpDate) },
+                { after: new Date(resDate.setDate(resDate.getDate() - 1)) },
+              ];
             }
           }
 
-          const nextReservation = reservationDates.find((date) => date > pickUpDate);
-          return nextReservation ? [{ before: startOfDay(pickUpDate) }, { after: nextReservation }] : [{ before: startOfDay(pickUpDate) }];
+          const nextReservation = reservationDates.find(
+            (date) => date > pickUpDate
+          );
+          return nextReservation
+            ? [{ before: startOfDay(pickUpDate) }, { after: nextReservation }]
+            : [{ before: startOfDay(pickUpDate) }];
         })()
       : [];
 
-  const allDisabledDays = [{ before: today, after: maxDate }, ...disabledDaysReserv, ...disabledDaysAfterReserv];
+  const allDisabledDays = [
+    { before: today, after: maxDate },
+    ...disabledDaysReserv,
+    ...disabledDaysAfterReserv,
+  ];
 
   const handleDateSelect = (date: Date) => {
     if (onSelect) {
       if (pickUpDate && reservation) {
         const pickDateNormalize = startOfDay(pickUpDate);
         const isPrevDay = date.getTime() < pickDateNormalize.getTime();
-        const isReserved = reserved.some((res) => res.toDateString() === date.toDateString());
+        const isReserved = reserved.some(
+          (res) => res.toDateString() === date.toDateString()
+        );
 
         const isRangeReserv = reservation.some((res) => {
           const resStartDate = startOfDay(new Date(res.startDate));
           const resEndDate = startOfDay(new Date(res.endDate));
           // return resStartDate <= date && resEndDate >= date;
-          return (resStartDate <= date && resEndDate >= date) || (resStartDate <= pickDateNormalize && resEndDate >= pickDateNormalize) || (pickDateNormalize <= resEndDate && date >= resStartDate);
+          return (
+            (resStartDate <= date && resEndDate >= date) ||
+            (resStartDate <= pickDateNormalize &&
+              resEndDate >= pickDateNormalize) ||
+            (pickDateNormalize <= resEndDate && date >= resStartDate)
+          );
         });
 
         if (!isRangeReserv && !isPrevDay && !isReserved) {
           onSelect(date);
         }
       } else {
-        const isReserved = reserved.some((res) => res.toDateString() === date.toDateString());
+        const isReserved = reserved.some(
+          (res) => res.toDateString() === date.toDateString()
+        );
         if (!isReserved) {
           onSelect(date);
         }
@@ -278,12 +330,18 @@ function Calendar({ className, classNames, reservation, pickUpDate, selected, on
       disabled={allDisabledDays}
       selected={selected}
       onDayClick={handleDateSelect}
-      modifiers={{
-        free: freeDays,
-        reserved: reserved || [],
-        disabled: { before: today, after: maxDate },
-        disabledAfterReserv: disabledDaysAfterReserv || [],
-      }}
+      modifiers={
+        defaultCellInCalendar === true
+          ? {
+              disabled: { before: today, after: maxDate },
+            }
+          : {
+              free: freeDays,
+              reserved: reserved || [],
+              disabled: { before: today, after: maxDate },
+              disabledAfterReserv: disabledDaysAfterReserv || [],
+            }
+      }
       modifiersClassNames={{
         free: "bg-green-300 ",
         reserved: "bg-red-300",
@@ -298,12 +356,16 @@ function Calendar({ className, classNames, reservation, pickUpDate, selected, on
         caption: "flex justify-center pt-1 relative items-center",
         caption_label: "text-sm font-medium",
         nav: "space-x-1 flex items-center",
-        nav_button: cn(buttonVariants({ variant: "outline" }), "h-7 w-7  p-0 opacity-50 hover:opacity-100"),
+        nav_button: cn(
+          buttonVariants({ variant: "outline" }),
+          "h-7 w-7  p-0 opacity-50 hover:opacity-100"
+        ),
         nav_button_previous: "absolute left-1",
         nav_button_next: "absolute right-1",
         table: "w-full border-collapse space-y-1",
         head_row: "flex",
-        head_cell: "text-muted-foreground rounded-md w-8 font-normal text-[0.8rem]",
+        head_cell:
+          "text-muted-foreground rounded-md w-8 font-normal text-[0.8rem]",
         row: "flex w-full mt-2",
         cell: cn(
           "relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected].day-range-end)]:rounded-r-md",
@@ -311,14 +373,20 @@ function Calendar({ className, classNames, reservation, pickUpDate, selected, on
             ? "[&:has(>.day-range-end)]:rounded-r-md [&:has(>.day-range-start)]:rounded-l-md first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md"
             : "[&:has([aria-selected])]:rounded-md"
         ),
-        day: cn(buttonVariants({ variant: "ghost" }), "h-8 w-8 p-0 font-normal aria-selected:opacity-100"),
+        day: cn(
+          buttonVariants({ variant: "ghost" }),
+          "h-8 w-8 p-0 font-normal aria-selected:opacity-100"
+        ),
         day_range_start: "day-range-start",
         day_range_end: "day-range-end",
-        day_selected: "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
+        day_selected:
+          "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
         day_today: "bg-accent text-accent-foreground",
-        day_outside: "day-outside text-muted-foreground aria-selected:bg-accent/50 aria-selected:text-muted-foreground",
+        day_outside:
+          "day-outside text-muted-foreground aria-selected:bg-accent/50 aria-selected:text-muted-foreground",
         day_disabled: "text-muted-foreground opacity-50",
-        day_range_middle: "aria-selected:bg-accent aria-selected:text-accent-foreground",
+        day_range_middle:
+          "aria-selected:bg-accent aria-selected:text-accent-foreground",
         day_hidden: "invisible",
         ...classNames,
       }}

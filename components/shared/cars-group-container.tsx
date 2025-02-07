@@ -2,33 +2,44 @@
 import React, { FC } from "react";
 import { Skeleton } from "../ui/skeleton";
 import { CarsGroup } from "./cars-group";
+import { Car } from "@prisma/client";
 
 type Props = {
-  cars: any;
+  cars: Car[];
   cols: number;
 };
 
 export const CarsGroupContainer: FC<Props> = ({ cars, cols }) => {
-  const [isLoading, setIsLoading] = React.useState(true);
-
-  React.useEffect(() => {
-    if (cars.length > 0) {
-      setIsLoading(false);
-    }
-  }, [cars]);
+  const isCarsLoading = cars === undefined;
+  const isCarsEmpty = cars?.length === 0;
 
   return (
     <>
-      {isLoading ? (
-        <div className="grid gap-[30px]" style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}>
+      {isCarsLoading ? (
+        <div
+          className="grid gap-[30px]"
+          style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}
+        >
           {Array.from({ length: 12 }).map((_, i) => (
-            <Skeleton key={i} className="item flex flex-col rounded-md  justify-between w-[300px] h-[390px]" />
+            <Skeleton
+              key={i}
+              className="item flex flex-col rounded-md justify-between w-[300px] h-[390px]"
+            />
           ))}
+        </div>
+      ) : isCarsEmpty ? (
+        <div>
+          <p>Не знайдено вільних машин!</p>
         </div>
       ) : (
         <div className="flex-1">
-          <div className="flex flex-col ">
-            <CarsGroup key={"asdasdasdasd"} disableSkeleton={true} cols={3} cars={cars} />
+          <div className="flex flex-col items-center md:items-stretch">
+            <CarsGroup
+              key="cars-group"
+              disableSkeleton={true}
+              cols={3}
+              cars={cars}
+            />
           </div>
         </div>
       )}

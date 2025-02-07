@@ -12,7 +12,10 @@ export const SearchInput: React.FC<Props> = () => {
   const dropdownRef = React.useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (e: MouseEvent) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(e.target as Node)
+    ) {
       setDropdownVisible(false);
     }
   };
@@ -39,11 +42,19 @@ export const SearchInput: React.FC<Props> = () => {
   };
 
   return (
-    <div className="relative w-[500px]" ref={dropdownRef}>
+    <div className="relative w-[175px] lg:w-[500px]" ref={dropdownRef}>
       <div className="relative">
-        <Input value={text} onChange={handleSearch} className="w-full h-12 pl-4 pr-10 rounded-lg border border-gray-200 focus:border-primary" placeholder="Пошук машини" />
+        <Input
+          value={text}
+          onChange={handleSearch}
+          className=" h-12 pl-4 pr-10 rounded-lg border border-gray-200 focus:border-primary w-full lg:w-full"
+          placeholder="Пошук машини"
+        />
         {text && (
-          <button onClick={() => setText("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+          <button
+            onClick={() => setText("")}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+          >
             ✕
           </button>
         )}
@@ -53,14 +64,23 @@ export const SearchInput: React.FC<Props> = () => {
         <div className="absolute top-full mt-2 w-full bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden z-[200]">
           <ul className="max-h-[400px] overflow-y-auto">
             {cars.map((car: Car) => (
-              <li key={car.id} className="group hover:bg-gray-50 transition-colors">
+              <li
+                key={car.id}
+                className="group hover:bg-gray-50 transition-colors"
+              >
                 <Link href={`/car/${car.id}`} onClick={() => setText("")}>
-                  <div className="flex items-center gap-4 p-3 cursor-pointer">
+                  <div className="flex items-center flex-col lg:flex-row gap-4 p-3 cursor-pointer">
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-gray-900 truncate">{car.name}</p>
+                      <p className="font-medium text-gray-900 truncate">
+                        {car.name}
+                      </p>
                     </div>
                     <div className="flex-shrink-0 h-16 w-24 relative">
-                      <img src={car.imageUrl} alt={car.name} className="h-full w-full object-cover " />
+                      <img
+                        src={car.imageUrl}
+                        alt={car.name}
+                        className="h-full w-full object-cover "
+                      />
                     </div>
                   </div>
                 </Link>

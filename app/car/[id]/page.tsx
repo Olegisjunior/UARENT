@@ -11,7 +11,10 @@ export default async function Car(props: { params: Promise<{ id: string }> }) {
   if (!car) {
     notFound();
   }
-  const comments = await prisma.comment.findMany({ where: { carId: car.id }, include: { user: true } });
+  const comments = await prisma.comment.findMany({
+    where: { carId: car.id },
+    include: { user: true },
+  });
 
   return (
     <Container className="max-w-[1350px]">
