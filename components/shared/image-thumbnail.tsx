@@ -51,7 +51,15 @@ export const ImageThumbnail: React.FC<ImageThumbnailTypes> = ({ product }) => {
           </div>
         </div>
       ) : (
-        <ImageGallery items={images} showNav={true} thumbnailPosition={"bottom"} showFullscreenButton={false} lazyLoad={true} showPlayButton={false} disableThumbnailScroll={true} />
+        <ImageGallery
+          items={images}
+          showNav={true}
+          thumbnailPosition={"bottom"}
+          showFullscreenButton={false}
+          lazyLoad={true}
+          showPlayButton={false}
+          disableThumbnailScroll={true}
+        />
       )}
     </>
   );

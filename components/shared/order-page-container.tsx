@@ -84,17 +84,54 @@ export function OrderPageContainer({ car, reservation, session }: Props) {
           </div>
         </>
       ) : (
-        <div className="flex justify-between items-center my-2 ">
-          <div className="flex flex-col gap-y-2">
-            <div className="bg-white p-3 rounded-lg">
+        <div className="flex flex-col xl:flex-row justify-between items-center gap-5 xl:gap-0 my-2 ">
+          <div className=" flex-col gap-y-2 flex justify-center items-center">
+            <div className="bg-white p-3 rounded-lg w-[300px] md:w-full">
               <FormPickOrDrop
                 handleSubmitFormPickOrDrop={handleSubmitFormPickOrDrop}
                 redirectData={false}
                 reservation={reservation}
                 isSubmitButton={false}
-                className="flex flex-col justify-center items-center "
-                className2="gap-10"
+                className2="gap-3 flex-col md:flex-row"
+                className="flex gap-2 justify-center items-center flex-col  "
               />
+            </div>
+            <div className="xl:hidden flex bg-white p-4 rounded-lg  flex-col justify-around items-center w-[300px] md:w-[400px] lg:w-[470px] h-[400px]">
+              <h1 className="text-lg xl:text-2xl font-bold">Підсумок оренди</h1>
+              <p className="text-[#90A3BF] text-sm">
+                Ціни можуть змінюватися залежно від тривалості оренди та ціни
+                вашого орендованого автомобіля.
+              </p>
+              <div className="flex flex-col xl:flex-row xl:justify-start gap-3 items-center w-full">
+                <Link
+                  href={`/car/${car.id}`}
+                  className="flex justify-center items-center w-full xl:w-[125px]"
+                >
+                  <img src={car.imageUrl} className="w-[125px]" />
+                </Link>
+                <Link href={`/car/${car.id}`}>
+                  <p className="font-bold text-lg xl:text-2xl truncate w-full xl:w-[300px] hover:underline">
+                    {car.name}
+                  </p>
+                </Link>
+              </div>
+              <hr className="bg-[#90A3BF] h-[1px] w-full opacity-50" />
+              <div className="flex justify-between items-center w-full">
+                <p className="text-[#90A3BF]">Ціна</p>
+                <p className="">{car.price}$/день</p>
+              </div>
+              <div className="flex justify-between items-center w-full">
+                <p className="text-[#90A3BF]">К-сть годин</p>
+                <p>{calculatedPrice().hours} год</p>
+              </div>
+              <div className="flex justify-between items-center w-full">
+                <p className="font-semibold text-lg xl:text-xl">
+                  Розрахована вартість оренди
+                </p>
+                <p className="font-semibold text-lg xl:text-xl">
+                  {calculatedPrice().price}$
+                </p>
+              </div>
             </div>
             <OrderForm
               session={session && session}
@@ -104,10 +141,10 @@ export function OrderPageContainer({ car, reservation, session }: Props) {
           </div>
           {isLoading ? (
             <div className="animate-pulse bg-white w-[470px] h-[400px] justify-center items-center flex rounded-lg">
-           <Skeleton className="animate-pulse w-[400px] h-[340px]"/>
+              <Skeleton className="animate-pulse w-[400px] h-[340px]" />
             </div>
           ) : (
-            <div className="bg-white p-4 rounded-lg flex flex-col justify-around items-center w-[470px] h-[400px]">
+            <div className="hidden xl:flex bg-white p-4 rounded-lg  flex-col justify-around items-center w-[300px] md:w-[470px] h-[400px]">
               <h1 className="text-2xl font-bold">Підсумок оренди </h1>
               <p className="text-[#90A3BF] text-sm">
                 Ціни можуть змінюватися залежно від тривалості оренди та ціни
