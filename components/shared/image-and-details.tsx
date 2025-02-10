@@ -128,7 +128,7 @@ export const ImageAndDetails: React.FC<Types> = ({ car, reviews }) => {
         <div className="flex justify-between text-[#596780]  border-gray-300 py-4 gap-x-20 text-md lg:text-xl h-[120px] items-center">
           <div className="w-1/2">
             <div className="flex justify-between items-center mb-2">
-              <span className="text-[#90A3BF]">Type Car</span>
+              <span className="text-[#90A3BF]">Тип машини</span>
               <span className="font-semibold">
                 {car.typeId === 1
                   ? "Sport"
@@ -140,21 +140,21 @@ export const ImageAndDetails: React.FC<Types> = ({ car, reviews }) => {
               </span>
             </div>
             <div className="flex justify-between items-center mb-2">
-              <span className="text-[#90A3BF]">Transmision</span>
+              <span className="text-[#90A3BF]">Трансмісія</span>
               <span className="font-semibold">{car.transmision}</span>
             </div>
           </div>
           <div className="w-1/2">
             <div className="flex justify-between items-center mb-2">
-              <span className="text-[#90A3BF]">Capacity</span>
-              <span className="font-semibold">{car.seats} seats</span>
+              <span className="text-[#90A3BF]">Місткість</span>
+              <span className="font-semibold">{car.seats} сидінь</span>
             </div>
             <div className="flex justify-between items-center mb-2">
               <span className="text-[#90A3BF]">
                 {car.name.toLowerCase().includes("tesla") ||
                 car.name.toLowerCase().includes("taycan")
-                  ? "Battery"
-                  : "Fuel"}
+                  ? "Батерея"
+                  : "Пальне"}
               </span>
               <span className="font-semibold">
                 {car.fuel}
@@ -173,10 +173,10 @@ export const ImageAndDetails: React.FC<Types> = ({ car, reviews }) => {
             </p>
             <span className="font-normal text-[#90A3BF] text-lg lg:text-2xl ">
               {" "}
-              day
+              день
             </span>
           </div>
-          <Button onClick={handleSubmit}>rental</Button>
+          <Button onClick={handleSubmit}>Орендувати</Button>
         </div>
       </div>
     </div>

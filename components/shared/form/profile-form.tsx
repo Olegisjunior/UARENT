@@ -57,7 +57,7 @@ export const ProfileForm: React.FC<Props> = ({ data }) => {
           <FormInput
             className="w-[300px] lg:w-[500px]"
             name="email"
-            label="Email"
+            label="Електронна пошта"
             required
           />
           <FormInput

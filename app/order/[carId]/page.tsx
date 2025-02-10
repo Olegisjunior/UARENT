@@ -1,16 +1,39 @@
+"use server";
 import { prisma } from "@/prisma/prisma-client";
 import { OrderPageContainer } from "@/components/shared";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { Metadata } from "next";
 
- 
-export default async function OrderPage({ params }: { params: { carId: string } }) {
+type Props = {
+  params: Promise<{ carId: string }>;
+};
+
+export const generateMetadata = async ({
+  params,
+}: Props): Promise<Metadata> => {
+  const carId = (await params).carId;
+  const car = await prisma.car.findFirst({ where: { id: Number(carId) } });
+  if (!car)
+    return {
+      title: "Машину не знайдено",
+      description: "Машину не знайдено",
+    };
+  return {
+    title: `Резервація ${car.name}`,
+    description: `Резервація ${car.name}`,
+  };
+};
+
+export default async function OrderPage({
+  params,
+}: {
+  params: { carId: string };
+}) {
   const { carId } = params;
 
   const session = await getServerSession(authOptions);
 
-
-  
   const car = await prisma.car.findUnique({ where: { id: Number(carId) } });
 
   if (!car) {
@@ -21,9 +44,7 @@ export default async function OrderPage({ params }: { params: { carId: string } 
     where: { carId: Number(carId) },
   });
 
-  if (!reservation) {
-    return null;
-  }
-
-  return <OrderPageContainer reservation={reservation} car={car} session={session} />;
+  return (
+    <OrderPageContainer reservation={reservation} car={car} session={session} />
+  );
 }

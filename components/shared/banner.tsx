@@ -16,7 +16,7 @@ export const Banner = () => {
               Звичайно, за низькою ціною.
             </p>
             <Link href="/cars" className="w-[150px]">
-              <Button className="w-[150px]">Rental car</Button>
+              <Button className="w-[150px]">Орендувати</Button>
             </Link>
           </div>
 
@@ -37,7 +37,7 @@ export const Banner = () => {
               за низькою ціною.
             </p>
             <Link href="/cars" className="w-[150px]">
-              <Button className="w-[150px]">Rental car</Button>
+              <Button className="w-[150px]">Орендувати</Button>
             </Link>
           </div>
 

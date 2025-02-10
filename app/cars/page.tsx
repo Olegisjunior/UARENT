@@ -1,3 +1,4 @@
+"use server";
 import {
   CarsGroupContainer,
   Container,
@@ -6,6 +7,12 @@ import {
 } from "@/components/shared";
 import { prisma } from "@/prisma/prisma-client";
 import { format } from "date-fns";
+
+export const metadata = async () => {
+  return {
+    title: "Машини",
+  };
+};
 
 export default async function Cars(props: {
   searchParams: Record<string, string>;
@@ -95,7 +102,6 @@ export default async function Cars(props: {
     </div>
   );
 }
-
 function getTypeId(type: "sport" | "sedan" | "suv" | "electric") {
   const mapping = { sport: 1, sedan: 2, suv: 3, electric: 4 };
   return mapping[type];

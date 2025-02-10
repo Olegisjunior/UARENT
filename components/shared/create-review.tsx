@@ -76,7 +76,11 @@ export const CreateReview: React.FC<Props> = ({ car, setComments }) => {
       {!user && (
         <div className="text-[#596780] my-3">
           Для написання відгуків необхідно
-          <Button variant={"link"} onClick={() => setOpenAuthModal(true)} className="text-primary  hover:underline p-2">
+          <Button
+            variant={"link"}
+            onClick={() => setOpenAuthModal(true)}
+            className="text-primary  hover:underline p-2"
+          >
             <i>авторизуватися.</i>
           </Button>
         </div>
@@ -98,11 +102,18 @@ export const CreateReview: React.FC<Props> = ({ car, setComments }) => {
                 },
                 pattern: {
                   value: /^[A-Za-z0-9\s!.,?А-Яа-яЁёІіїЇєщЩьЬ]+$/,
-                  message: "Це поле має містити тільки букви та цифри і деякі спеціальні символи",
+                  message:
+                    "Це поле має містити тільки букви та цифри і деякі спеціальні символи",
                 },
               })}
             />
-            <ErrorMessage errors={err} name="comment" render={({ message }) => <p className="text-red-500 text-[0.8rem]">{message}</p>} />
+            <ErrorMessage
+              errors={err}
+              name="comment"
+              render={({ message }) => (
+                <p className="text-red-500 text-[0.8rem]">{message}</p>
+              )}
+            />
           </div>
           <div className="">
             <Controller
@@ -120,7 +131,13 @@ export const CreateReview: React.FC<Props> = ({ car, setComments }) => {
                 />
               )}
             />
-            <ErrorMessage errors={err} name="rating" render={({ message }) => <p className="text-red-500 text-[0.8rem] ">{message}</p>} />
+            <ErrorMessage
+              errors={err}
+              name="rating"
+              render={({ message }) => (
+                <p className="text-red-500 text-[0.8rem] ">{message}</p>
+              )}
+            />
           </div>
 
           <Button>Відправити</Button>

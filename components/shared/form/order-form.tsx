@@ -202,15 +202,15 @@ export const OrderForm: React.FC<Props> = ({ session, carId, reservation }) => {
             </div>
 
             <div className="flex flex-col xl:flex-row justify-center xl:justify-stretch items-center gap-3">
-              <label className="w-32">Email:</label>
+              <label className="w-32">Електронна пошта:</label>
               <div className="flex-1">
                 <Input
                   placeholder="qwerty@gmail.com"
                   {...register("email", {
-                    required: "Email обов'язковий",
+                    required: "Електронна пошта обов'язковa",
                     pattern: {
                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: "Невірний формат email",
+                      message: "Невірний формат Електронна пошти",
                     },
                   })}
                   type="email"

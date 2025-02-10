@@ -22,3 +22,4 @@ export { CarsGroupContainer } from "./cars-group-container";
 export { ReservSkeleton } from "./reserv-skeleton";
 export { ReservationList } from "./reservation-list";
 export { Sorts } from "./sorts";
+export { HeaderGuts } from "./header-guts";

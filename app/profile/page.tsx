@@ -1,3 +1,4 @@
+"use server";
 import React from "react";
 import { redirect } from "next/navigation";
 import { prisma } from "@/prisma/prisma-client";
@@ -5,6 +6,10 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 
 import { ProfileForm } from "@/components/shared/form";
+
+export const metadata = {
+  title: "Профіль",
+};
 
 export default async function profile() {
   const session = await getServerSession(authOptions);
