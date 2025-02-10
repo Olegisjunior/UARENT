@@ -34,7 +34,10 @@ export const Reviews: React.FC<TypesProps> = ({ car, fetchedComments }) => {
   return (
     <div className="bg-white rounded-xl w-full h-fit p-4 my-2 ">
       <h1 className="font-bold text-2xl text-[#1A202C] flex gap-4">
-        Reviews <span className="px-4  bg-[rgb(37,100,235)] text-white rounded-lg">{comments && comments.length}</span>
+        Коментарі{" "}
+        <span className="px-4  bg-[rgb(37,100,235)] text-white rounded-lg">
+          {comments && comments.length}
+        </span>
       </h1>
 
       <CreateReview comments={comments} setComments={setComments} car={car} />
@@ -53,13 +56,20 @@ export const Reviews: React.FC<TypesProps> = ({ car, fetchedComments }) => {
                   <div className="flex-1">
                     <div className="flex justify-between items-center mb-2">
                       <div>
-                        <h3 className="text-xl  text-[#1A202C] font-bold">{comment.user?.name}</h3>
+                        <h3 className="text-xl  text-[#1A202C] font-bold">
+                          {comment.user?.name}
+                        </h3>
                       </div>
                       <div>
-                        <span className="text-lg text-[#90A3BF]">{createdAt.toDateString()}</span>
+                        <span className="text-lg text-[#90A3BF]">
+                          {createdAt.toDateString()}
+                        </span>
                         <div className="flex items-center">
                           {[...Array(comment.rating)].map((_, index) => (
-                            <span key={index} className="text-yellow-500 text-lg">
+                            <span
+                              key={index}
+                              className="text-yellow-500 text-lg"
+                            >
                               ★
                             </span>
                           ))}
@@ -72,7 +82,9 @@ export const Reviews: React.FC<TypesProps> = ({ car, fetchedComments }) => {
                       </div>
                     </div>
 
-                    <p className="text-[#596780] w-full text-md my-2">{comment.content && comment.content}</p>
+                    <p className="text-[#596780] w-full text-md my-2">
+                      {comment.content && comment.content}
+                    </p>
                   </div>
                 </div>
               </div>

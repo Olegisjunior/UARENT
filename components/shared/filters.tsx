@@ -232,7 +232,7 @@ export function Filters() {
       >
         <div className="ml-10 ">
           <h4 className="text-lg  mb-2 text-[#90A3BF] font-normal">
-            Car Types
+            Тип машини
           </h4>
           <div className="flex flex-col gap-3">
             {typeOptions.map((type) => (
@@ -251,7 +251,7 @@ export function Filters() {
         <hr className="bg-secondary opacity-40" />
         <div className="ml-10">
           <h4 className="text-lg  mb-2 text-[#90A3BF] font-normal">
-            Car Capacity
+            Місткість автомобіля
           </h4>
           <div
             className="flex flex-col gap-3
@@ -272,7 +272,7 @@ export function Filters() {
 
         <div className="ml-10">
           <h4 className="text-lg  mb-2 text-[#90A3BF] font-normal">
-            Car brand
+            Бренд машини
           </h4>
           <div className="flex flex-col gap-3">
             {visibleBrands.map((brand) => (
@@ -301,7 +301,7 @@ export function Filters() {
 
         <div className="mx-8">
           <h4 className="text-lg  mb-2 text-[#90A3BF] font-normal">
-            Price Range
+            Діапазон цін
           </h4>
           <Slider
             defaultValue={[70, 250]}

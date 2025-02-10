@@ -237,48 +237,40 @@ function Calendar({
       )
     : [];
 
-  // const disabledDaysAfterReserv =
-  //   pickUpDate && reservation
-  //     ? (() => {
-  //         const reservationDates = reservation.flatMap((res) => eachDayOfInterval({ start: startOfDay(new Date(res.startDate)), end: startOfDay(new Date(res.endDate)) }));
-  //         if (!reservationDates.length) return [];
-
-  //         for (const resDate of reservationDates) {
-  //           if (startOfDay(pickUpDate) < resDate) {
-  //             return [{ before: startOfDay(pickUpDate) }, { after: new Date(resDate.setDate(resDate.getDate() - 1)) }];
-  //           }
-  //         }
-
-  //         const nextReservation = reservationDates.find((date) => date > pickUpDate);
-  //         return nextReservation ? [{ before: startOfDay(pickUpDate) }, { after: nextReservation }] : [{ before: startOfDay(pickUpDate) }];
-  //       })()
-  //     : [];
-
   const disabledDaysAfterReserv =
     pickUpDate && reservation
       ? (() => {
-          const reservationDates = reservation.flatMap((res) =>
+          const reservationIntervals = reservation.flatMap((res) =>
             eachDayOfInterval({
               start: startOfDay(new Date(res.startDate)),
               end: startOfDay(new Date(res.endDate)),
             })
           );
-          if (!reservationDates.length) return [];
 
-          for (const resDate of reservationDates) {
-            if (startOfDay(pickUpDate) < resDate) {
+          if (!reservationIntervals.length) return [];
+
+          for (const reservationDate of reservationIntervals) {
+            if (startOfDay(pickUpDate) < reservationDate) {
               return [
                 { before: startOfDay(pickUpDate) },
-                { after: new Date(resDate.setDate(resDate.getDate() - 1)) },
+                {
+                  after: new Date(
+                    reservationDate.setDate(reservationDate.getDate() - 1)
+                  ),
+                },
               ];
             }
           }
 
-          const nextReservation = reservationDates.find(
+          const nextReservationDate = reservationIntervals.find(
             (date) => date > pickUpDate
           );
-          return nextReservation
-            ? [{ before: startOfDay(pickUpDate) }, { after: nextReservation }]
+
+          return nextReservationDate
+            ? [
+                { before: startOfDay(pickUpDate) },
+                { after: nextReservationDate },
+              ]
             : [{ before: startOfDay(pickUpDate) }];
         })()
       : [];
@@ -338,8 +330,8 @@ function Calendar({
           : {
               free: freeDays,
               reserved: reserved || [],
-              disabled: { before: today, after: maxDate },
               disabledAfterReserv: disabledDaysAfterReserv || [],
+              disabled: { before: today, after: maxDate },
             }
       }
       modifiersClassNames={{

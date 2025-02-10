@@ -60,13 +60,9 @@ export default async function Home() {
 // - Reservations YES
 // - Profile YES
 // formpickordrop homepage dosen't work YES
-
 // toatify all alerts.. yes
-
-// перекласти весь сайт на укр
-
-//
-
+// перекласти весь сайт на укр YES
+// metadata's YES
 // Переглянути всі лоадери Авторизації (воно не має перше показувати що я не авторизований а аж потім показувати що все так ия авторизований.. ) перевірку треба змінити
 
 // nextauth problem signin перекидує на якесь хуєву авторизацію
@@ -75,3 +71,5 @@ export default async function Home() {
 // post vercel
 
 // refactoring all
+
+// better github profile

@@ -103,10 +103,10 @@ export const ProductCart: React.FC<Props> = ({
         <div className="flex justify-between items-center px-5 pb-5">
           <div className="flex justify-center items-center ">
             <p className="text-xl font-extrabold">${price}/</p>
-            <span className="font-normal text-[#90A3BF]">day</span>
+            <span className="font-normal text-[#90A3BF]">день</span>
           </div>
           <Button>
-            <Link href={`/order/${id}`}>Rent Now</Link>
+            <Link href={`/order/${id}`}>Орендувати</Link>
           </Button>
         </div>
       </div>
