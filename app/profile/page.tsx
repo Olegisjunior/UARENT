@@ -7,8 +7,10 @@ import { authOptions } from "../api/auth/[...nextauth]/route";
 
 import { ProfileForm } from "@/components/shared/form";
 
-export const metadata = {
-  title: "Профіль",
+export const metadata = async () => {
+  return {
+    title: "Профіль",
+  };
 };
 
 export default async function profile() {
