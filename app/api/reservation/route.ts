@@ -10,17 +10,61 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { carId, startDate, endDate, startTime, endTime, firstName, lastName, email, phone, customerId, paymentMethod, cardNumber, expiryDate, cvv } = await req.json();
+    const {
+      carId,
+      startDate,
+      endDate,
+      startTime,
+      endTime,
+      firstName,
+      lastName,
+      email,
+      phone,
+      customerId,
+      paymentMethod,
+      cardNumber,
+      expiryDate,
+      cvv,
+    } = await req.json();
 
-    if (!carId || !startDate || !endDate || !startTime || !endTime || !firstName || !lastName || !email || !phone || !paymentMethod) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    if (
+      !carId ||
+      !startDate ||
+      !endDate ||
+      !startTime ||
+      !endTime ||
+      !firstName ||
+      !lastName ||
+      !email ||
+      !phone ||
+      !paymentMethod
+    ) {
+      return NextResponse.json(
+        { error: "Missing required fields" },
+        { status: 400 }
+      );
     }
 
     if (paymentMethod === "card" && (!cardNumber || !expiryDate || !cvv)) {
-      return NextResponse.json({ error: "Incomplete card details for card payment" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Incomplete card details for card payment" },
+        { status: 400 }
+      );
     }
 
-    console.log("Reservation Request Data:", { carId, startDate, endDate, startTime, endTime, firstName, lastName, email, phone, customerId, paymentMethod });
+    console.log("Reservation Request Data:", {
+      carId,
+      startDate,
+      endDate,
+      startTime,
+      endTime,
+      firstName,
+      lastName,
+      email,
+      phone,
+      customerId,
+      paymentMethod,
+    });
 
     const reservation = await prisma.reservation.create({
       data: {
@@ -49,7 +93,9 @@ export async function POST(req: Request) {
     return NextResponse.json(reservation, { status: 201 });
   } catch (error) {
     console.error("Error details:", error);
-    return NextResponse.json({ error: "An unexpected error occurred while processing your request." }, { status: 500 });
+    return NextResponse.json(
+      { error: "An unexpected error occurred while processing your request." },
+      { status: 500 }
+    );
   }
 }
-// const encryptedId = encryptId(String(reservation.id));

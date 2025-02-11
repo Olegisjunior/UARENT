@@ -8,8 +8,10 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 import { ReservationList } from "@/components/shared";
 
-export const metadata = {
-  title: "Резервації",
+export const metadata = async () => {
+  return {
+    title: "Резервації",
+  };
 };
 
 export default async function ReservationPage() {
@@ -34,14 +36,6 @@ export default async function ReservationPage() {
       </div>
     );
   }
-
-  // if (!reservations.some((res) => res.customerId === user?.id) && user?.role !== "ADMIN") {
-  //   return (
-  //     <div className="container mx-auto my-5 bg-white rounded-xl p-5">
-  //       <div>Ви не маєте доступу до цього замовлення!</div>
-  //     </div>
-  //   );
-  // }
 
   const sortedReservations = reservations.sort(
     (a, b) => b.createdAt.getTime() - a.createdAt.getTime()

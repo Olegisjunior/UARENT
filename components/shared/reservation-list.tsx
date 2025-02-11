@@ -3,6 +3,17 @@ import React, { FC } from "react";
 import { format } from "date-fns";
 import { Skeleton } from "../ui/skeleton";
 import { Container } from "./container";
+import { Button } from "../ui/button";
+import { toast } from "react-toastify";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import { useRouter } from "next/navigation";
 
 type Props = {
   reservations: any;
@@ -14,12 +25,37 @@ export const ReservationList: FC<Props> = ({
   sortedReservations,
 }) => {
   const [isLoading, setIsLoading] = React.useState(true);
+  const [selectedReservation, setSelectedReservation] =
+    React.useState<any>(null);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+  const router = useRouter();
 
   React.useEffect(() => {
     if (sortedReservations) {
       setIsLoading(false);
     }
   }, [sortedReservations]);
+
+  const handleCancel = async () => {
+    if (!selectedReservation) return;
+
+    try {
+      const res = await fetch(`/api/reservation/${selectedReservation.id}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) throw new Error("Помилка скасування замовлення");
+
+      toast.success("Замовлення скасовано!");
+      setIsModalOpen(false);
+      setTimeout(() => {
+        router.refresh();
+      }, 2000);
+    } catch (error) {
+      toast.error("Не вдалося скасувати замовлення.");
+    }
+  };
 
   return (
     <Container>
@@ -89,11 +125,47 @@ export const ReservationList: FC<Props> = ({
                   <div>
                     <img src={res.car.imageUrl} className="w-[200px]" />
                   </div>
+                  <Button
+                    onClick={() => {
+                      setSelectedReservation(res);
+                      setIsModalOpen(true);
+                    }}
+                    className="bg-red-500 hover:bg-[#a31f1f] text-white"
+                  >
+                    Скасувати
+                  </Button>
                 </div>
               </div>
             ))}
         </div>
       )}
+
+      <Dialog open={isModalOpen} onOpenChange={() => setIsModalOpen(false)}>
+        <DialogTrigger>Open</DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold mb-4">
+              Підтвердження скасування
+            </DialogTitle>
+            <DialogDescription>
+              <div className="p-5">
+                <p>Ви впевнені, що хочете скасувати це замовлення?</p>
+                <div className="flex justify-end mt-4 gap-3">
+                  <Button onClick={() => setIsModalOpen(false)}>
+                    Відмінити
+                  </Button>
+                  <Button
+                    onClick={handleCancel}
+                    className="bg-red-500 hover:bg-[#a31f1f] text-white"
+                  >
+                    Скасувати замовлення
+                  </Button>
+                </div>
+              </div>
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </Container>
   );
 };

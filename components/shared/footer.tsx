@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 export const Footer: React.FC = () => {
@@ -8,18 +9,18 @@ export const Footer: React.FC = () => {
           <h2 className="text-3xl font-[900]">UARENT</h2>
         </div>
         <div className="flex flex-col md:flex-row mb-4 md:mb-0">
-          <a href="/about" className="mx-2 hover:underline">
+          <Link href="/about/#" className="mx-2 hover:underline">
             Про нас
-          </a>
-          <a href="/services" className="mx-2 hover:underline">
+          </Link>
+          <Link href="/about/#about_service" className="mx-2 hover:underline">
             Сервіс
-          </a>
-          <a href="/contact" className="mx-2 hover:underline">
+          </Link>
+          <Link href="/about/#about_contacts" className="mx-2 hover:underline">
             Контакти
-          </a>
-          <a href="/faq" className="mx-2 hover:underline">
+          </Link>
+          <Link href="/about/#about_faq" className="mx-2 hover:underline">
             FAQ
-          </a>
+          </Link>
         </div>
         <div className="flex flex-col md:flex-row mb-4 md:mb-0">
           <a
