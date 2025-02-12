@@ -6,7 +6,6 @@ import { OrderForm } from "./form";
 import { Car } from "@prisma/client";
 import { FormPickOrDrop } from "./from-pick-or-drop";
 import Link from "next/link";
-import { Button } from "../ui/button";
 import { Skeleton } from "../ui/skeleton";
 
 type Props = {
@@ -35,6 +34,13 @@ type Props = {
     | undefined;
 };
 
+type handleSubmitFormPickOrDrop = (data: {
+  pickUpDate: Date;
+  pickUpTime: string;
+  dropOffDate: Date;
+  dropOffTime: string;
+}) => void;
+
 export function OrderPageContainer({ car, reservation, session }: Props) {
   const [reservDates, setReservDates] = React.useState({
     pickUpDate: new Date(),
@@ -59,7 +65,7 @@ export function OrderPageContainer({ car, reservation, session }: Props) {
     }
   }, [session]);
 
-  const handleSubmitFormPickOrDrop = (data: any) => {
+  const handleSubmitFormPickOrDrop: handleSubmitFormPickOrDrop = (data) => {
     setReservDates(data);
   };
 

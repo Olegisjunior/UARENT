@@ -11,7 +11,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { JsonValue } from "@prisma/client/runtime/library";
 
 interface CalendarDateProps {
   value: Date | undefined;
@@ -47,7 +46,6 @@ export const CalendarDate: React.FC<CalendarDateProps> = ({
   value,
   onChange,
   onBlur,
-  name,
   reservation,
   pickUpDate,
   defaultCellInCalendar,

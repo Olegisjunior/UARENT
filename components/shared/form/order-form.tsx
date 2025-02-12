@@ -7,14 +7,14 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Container } from "../container";
 import { useRouter } from "next/navigation";
-// import { encodeId } from "@/lib/hashids";
 import { resetOrder } from "@/store/OrderSlice";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "react-toastify";
+import { Session } from "next-auth";
 
 type Props = {
   carId: number;
-  session: any;
+  session: Session | null;
   reservation?:
     | {
         status: string;
@@ -49,7 +49,7 @@ interface FormData {
   cvv?: string;
 }
 
-export const OrderForm: React.FC<Props> = ({ session, carId, reservation }) => {
+export const OrderForm: React.FC<Props> = ({ session, carId }) => {
   const [paymentMethod, setPaymentMethod] = React.useState("card");
   const dispatch = useDispatch();
   const orderDetails = useSelector((state: RootState) => state.order);
@@ -96,7 +96,7 @@ export const OrderForm: React.FC<Props> = ({ session, carId, reservation }) => {
       lastName: formData.lastName,
       email: formData.email,
       phone: formData.phone,
-      customerId: session.user.id,
+      customerId: session?.user.id,
       ...(formData.paymentMethod === "card" && {
         cardNumber: formData.cardNumber,
         expiryDate: formData.expiryDate,

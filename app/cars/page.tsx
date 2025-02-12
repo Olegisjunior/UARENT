@@ -23,7 +23,6 @@ export default async function Cars(props: {
   const pickUpDate = params.pick ? new Date(params.pick) : undefined;
   const dropOffDate = params.drop ? new Date(params.drop) : undefined;
   const pickUpTime = pickUpDate && format(pickUpDate, "HH:mm");
-  const dropOffTime = dropOffDate && format(dropOffDate, "HH:mm");
 
   const types = params.types ? params.types.split(",") : [];
   const brands = params.brands ? params.brands.split(",") : [];
@@ -34,7 +33,7 @@ export default async function Cars(props: {
   const sortField = params.sortField || "price";
   const sortOrder = params.sortOrder === "desc" ? "desc" : "asc";
 
-  const filterConditions: any = {
+  const filterConditions: { [key: string]: any } = {
     ...(location && { location }),
     ...(types.length > 0 && {
       typeId: {

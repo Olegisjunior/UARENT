@@ -37,6 +37,7 @@ export const ProfileForm: React.FC<Props> = ({ data }) => {
       });
     } catch (error) {
       alert("Помилка редагування");
+      console.error(error);
     }
   };
 

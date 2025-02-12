@@ -4,9 +4,7 @@ import { Button } from "../ui/button";
 import { SortAscIcon, SortDescIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-type Props = {};
-
-export const Sorts: FC<Props> = ({}) => {
+export const Sorts: FC<{}> = () => {
   const [typeSort, setTypeSort] = React.useState("asc");
   const router = useRouter();
 
@@ -16,10 +14,11 @@ export const Sorts: FC<Props> = ({}) => {
 
     currentParams.set("sortOrder", typeSort);
 
-    router.push(`/cars?${currentParams.toString()}`, undefined, {
+    router.push(`/cars?${currentParams.toString()}`, {
+      //@ts-ignore
       shallow: true,
     });
-  }, [typeSort]);
+  }, [typeSort, router]);
 
   const handleClick = () => {
     setTypeSort((prevSort) => (prevSort === "asc" ? "desc" : "asc"));

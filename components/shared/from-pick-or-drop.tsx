@@ -49,7 +49,21 @@ type Props = {
         updatedAt: Date;
       }[]
     | undefined;
-  handleSubmitFormPickOrDrop?: (data: any) => void;
+  handleSubmitFormPickOrDrop?: (data: {
+    dropOffDate: Date;
+    dropOffTime: string;
+    pickUpDate: Date;
+    pickUpTime: string;
+  }) => void;
+};
+
+type SubmitData = {
+  dropOffDate: Date;
+  dropOffLocation: string;
+  dropOffTime: string;
+  pickUpDate: Date;
+  pickUpLocation: string;
+  pickUpTime: string;
 };
 
 export const FormPickOrDrop: React.FC<Props> = ({
@@ -76,11 +90,11 @@ export const FormPickOrDrop: React.FC<Props> = ({
     if (router) {
       setIsLoading(false);
     }
-  }, [isLoading]);
+  }, [isLoading, router]);
 
   const notify = () => toast.success("Дані збережені!");
 
-  const onSubmit = (data: any, event?: React.BaseSyntheticEvent) => {
+  const onSubmit = (data: SubmitData, event?: React.BaseSyntheticEvent) => {
     const pickDate = new Date(
       data.pickUpDate + "T" + data.pickUpTime + ":00.000Z"
     );
