@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
+import Image from "next/image";
 
 export const Banner = () => {
   return (
@@ -20,10 +21,12 @@ export const Banner = () => {
             </Link>
           </div>
 
-          <img
+          <Image
             src="/car.webp"
             className="z-10 absolute right-20 md:right-32 top-44 w-[250px] md:w-[400px]"
             alt=""
+            width={250}
+            height={300}
           />
         </div>
         <div className="bg-[#6271fd] rounded-xl h-[300px] w-[350px] md:h-[300px] md:w-[540px] lg:h-[300px] lg:w-[590px] xl:w-[640px] flex justify-start items-start relative ">
@@ -41,10 +44,13 @@ export const Banner = () => {
             </Link>
           </div>
 
-          <img
+          <Image
             src="/car.webp"
             className="z-10 absolute right-20 md:right-32 top-44 w-[250px] md:w-[400px]"
             alt=""
+            width={250}
+            height={300}
+            quality={100}
           />
         </div>
       </div>

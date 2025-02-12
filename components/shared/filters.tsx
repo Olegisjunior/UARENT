@@ -5,13 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
 import React from "react";
-import {
-  ArrowDown,
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  ArrowUp,
-  FilterIcon,
-} from "lucide-react";
+import { ArrowDown, ArrowUp, FilterIcon } from "lucide-react";
 import { NavigateOptions } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { Button } from "../ui/button";
 import { Sheet, SheetContent, SheetHeader } from "../ui/sheet";
@@ -111,7 +105,7 @@ export function Filters() {
     setTimeout(() => {
       updateFilters();
     }, 500);
-  }, [types, capacitys, brands, priceRange]);
+  }, [types, capacitys, brands, priceRange, updateFilters]);
 
   return (
     <>

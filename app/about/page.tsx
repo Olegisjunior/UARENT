@@ -2,9 +2,7 @@ import { Container } from "@/components/shared";
 import { CircleIcon } from "lucide-react";
 import React from "react";
 
-type Props = {};
-
-export default async function About({}: Props) {
+export default async function About() {
   return (
     <Container className="h-fit p-6 pb-16 text-gray-900 bg-white flex flex-col items-center">
       <div id="about_us" className="w-[80%] mt-8 flex flex-col gap-12">
@@ -74,35 +72,35 @@ export default async function About({}: Props) {
           <h1 className="text-2xl font-semibold">FAQ (Поширені запитання)</h1>
           <div className="mt-6 text-lg space-y-4 text-left">
             <p>
-              <span className="font-semibold">Як забронювати авто?</span>{" "}
+              <span className="font-semibold">Як забронювати авто?</span>
               Виберіть автомобіль, вкажіть дати оренди, оформіть бронювання та
               підтвердьте оплату.
             </p>
             <p>
               <span className="font-semibold">
                 Які документи потрібні для оренди?
-              </span>{" "}
+              </span>
               Паспорт або ID-картка, водійське посвідчення (категорія B) та
               банківська картка.
             </p>
             <p>
               <span className="font-semibold">
                 Чи можна змінити або скасувати бронювання?
-              </span>{" "}
+              </span>
               Так, через сторінку резервацій. Деякі зміни можуть передбачати
               додаткові умови або комісію.
             </p>
             <p>
               <span className="font-semibold">
                 Які варіанти оплати доступні?
-              </span>{" "}
+              </span>
               Оплатити можна банківською карткою або готівкою при отриманні
               авто.
             </p>
             <p>
               <span className="font-semibold">
                 Чи є обмеження за віком водія?
-              </span>{" "}
+              </span>
               Так, мінімальний вік – 21 рік. Деякі авто можуть мати додаткові
               вимоги.
             </p>
@@ -114,7 +112,7 @@ export default async function About({}: Props) {
             <p>
               <span className="font-semibold">
                 Чи потрібно вносити завдаток перед орендою?
-              </span>{" "}
+              </span>
               Так, для більшості авто передбачено завдаток, який повертається
               після завершення оренди за умови відсутності пошкоджень.
             </p>

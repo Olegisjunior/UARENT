@@ -1,11 +1,17 @@
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 
 type Props = {
   selectedCity: string | undefined;
   setSelectedCity: React.Dispatch<React.SetStateAction<string | undefined>>;
 };
 
-export const SelectComponent: React.FC<Props> = ({ selectedCity, setSelectedCity }) => {
+export const SelectComponent: React.FC<Props> = ({ setSelectedCity }) => {
   const Citys = [
     "Vinnytsya",
     "Volyn",
@@ -48,3 +54,5 @@ export const SelectComponent: React.FC<Props> = ({ selectedCity, setSelectedCity
     </Select>
   );
 };
+
+SelectComponent.displayName = "SelectComponent";

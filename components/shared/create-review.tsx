@@ -8,6 +8,7 @@ import { StarRating } from "./star-rating";
 import { Car } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { AuthModal } from "./modal";
+import { useRouter } from "next/navigation";
 
 type FormType = {
   comment: string;
@@ -26,6 +27,7 @@ export const CreateReview: React.FC<Props> = ({ car, setComments }) => {
   const [rating, setRating] = React.useState(0);
   const [loading, setLoading] = React.useState(false);
   const session = useSession();
+  const router = useRouter();
   const user = session.data?.user;
   const {
     handleSubmit,
@@ -58,6 +60,7 @@ export const CreateReview: React.FC<Props> = ({ car, setComments }) => {
         setComments((prevComments: any[]) => [newComment, ...prevComments]);
         reset();
         setRating(0);
+        router.refresh();
       } else {
         const error = await response.json();
         alert(`Failed: ${error.error}`);
@@ -140,7 +143,7 @@ export const CreateReview: React.FC<Props> = ({ car, setComments }) => {
             />
           </div>
 
-          <Button>Відправити</Button>
+          <Button className={loading ? `disabled` : ``}>Відправити</Button>
         </form>
       )}
     </>

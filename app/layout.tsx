@@ -1,9 +1,7 @@
-import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Footer, Header } from "@/components/shared";
 import { ToastContainer } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
 import { Providers } from "@/components/shared/provider";
 import { StoreProvider } from "@/store/storeProvider";
 
@@ -11,11 +9,6 @@ const Roboto = localFont({
   src: "./fonts/Roboto.woff2",
   variable: "--font-Roboto",
 });
-
-// export const metadata: Metadata = {
-//   title: "UARENT",
-//   description: "uarent",
-// };
 
 export default function RootLayout({
   children,
