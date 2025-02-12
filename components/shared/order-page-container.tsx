@@ -80,7 +80,7 @@ export function OrderPageContainer({ car, reservation, session }: Props) {
   };
 
   return (
-    <Container>
+    <Container className="mt-5">
       {isModal && (
         <div>
           <AuthModal open={isModal} onClose={() => setIsModal(false)} />
@@ -88,7 +88,7 @@ export function OrderPageContainer({ car, reservation, session }: Props) {
         </div>
       )}
 
-      <div className="flex flex-col xl:flex-row justify-between items-center gap-5 xl:gap-0 my-2 ">
+      <div className="flex flex-col xl:flex-row justify-between items-start gap-5 xl:gap-0 my-2 ">
         <div className=" flex-col gap-y-2 flex justify-center items-center">
           <div className="bg-white p-3 rounded-lg w-[300px] md:w-full">
             <FormPickOrDrop
