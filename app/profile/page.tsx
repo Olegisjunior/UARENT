@@ -3,7 +3,7 @@ import React from "react";
 import { redirect } from "next/navigation";
 import { prisma } from "@/prisma/prisma-client";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/authOptions";
 
 import { ProfileForm } from "@/components/shared/form";
 

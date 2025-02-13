@@ -3,12 +3,11 @@ import { Input } from "../ui/input";
 import { Car } from "@prisma/client";
 import Link from "next/link";
 
-type Props = {};
-
-export const SearchInput: React.FC<Props> = () => {
-  const [text, setText] = React.useState("");
+export const SearchInput: React.FC = () => {
+  const [text, setText] = React.useState<string>("");
   const [cars, setCars] = React.useState<Car[]>([]);
-  const [isDropdownVisible, setDropdownVisible] = React.useState(false);
+  const [isDropdownVisible, setDropdownVisible] =
+    React.useState<boolean>(false);
   const dropdownRef = React.useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (e: MouseEvent) => {

@@ -8,6 +8,12 @@ import { prisma } from "@/prisma/prisma-client";
 import { UpdateDates } from "@/utils/updateReserDates";
 import React from "react";
 
+export const metadata = async () => {
+  return {
+    title: "Головна",
+  };
+};
+
 export default async function Home() {
   const categories = await prisma.type.findMany({ include: { cars: true } });
 
@@ -17,6 +23,7 @@ export default async function Home() {
     <>
       <Container className="my-5 flex flex-col justify-center items-center gap-4">
         <Banner />
+
         <FormPickOrDrop
           defaultCellInCalendar={true}
           className2="gap-3 flex-col md:flex-row"

@@ -1,35 +1,29 @@
 "use client";
 
-import { Car } from "@prisma/client";
+import { Car, User } from "@prisma/client";
 import React from "react";
 import { CreateReview } from "./create-review";
 import { User2Icon } from "lucide-react";
 
+type Comment = {
+  id: number;
+  createdAt: Date;
+  rating: number | null;
+  content: string;
+  carId: number;
+  userId: number;
+  user: User;
+};
+
 type TypesProps = {
   car: Car;
-  fetchedComments: {
-    id: number;
-    createdAt: Date;
-    rating: number | null;
-    content: string;
-    carId: number;
-    userId: number;
-    user: {
-      name: string;
-      id: number;
-      createdAt: Date;
-      updatedAt: Date;
-      role: any;
-      email: string;
-      password: string;
-      provider: string | null;
-      providerId: string | null;
-    };
-  }[];
+  fetchedComments: Comment[];
 };
 
 export const Reviews: React.FC<TypesProps> = ({ car, fetchedComments }) => {
-  const [comments, setComments] = React.useState<any[]>(fetchedComments || []);
+  const [comments, setComments] = React.useState<Comment[]>(
+    fetchedComments || []
+  );
 
   return (
     <div className="bg-white rounded-xl w-full h-fit p-4 my-2 ">
@@ -43,7 +37,7 @@ export const Reviews: React.FC<TypesProps> = ({ car, fetchedComments }) => {
       <CreateReview comments={comments} setComments={setComments} car={car} />
 
       {Array.isArray(comments) && comments.length > 0 ? (
-        comments.map((comment: any) => {
+        comments.map((comment) => {
           const createdAt = new Date(comment.createdAt);
           return (
             <div key={comment.id}>
@@ -73,11 +67,16 @@ export const Reviews: React.FC<TypesProps> = ({ car, fetchedComments }) => {
                               ★
                             </span>
                           ))}
-                          {[...Array(5 - comment.rating)].map((_, index) => (
-                            <span key={index} className="text-gray-300 text-lg">
-                              ★
-                            </span>
-                          ))}
+                          {[...Array(5 - (comment.rating ?? 0))].map(
+                            (_, index) => (
+                              <span
+                                key={index}
+                                className="text-gray-300 text-lg"
+                              >
+                                ★
+                              </span>
+                            )
+                          )}
                         </div>
                       </div>
                     </div>

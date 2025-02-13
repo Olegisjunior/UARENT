@@ -2,7 +2,7 @@
 import React from "react";
 import { ImageThumbnail } from "@/components/shared";
 import { Heart } from "lucide-react";
-import { Car } from "@prisma/client";
+import { Car, User, UserRole } from "@prisma/client";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,7 +24,7 @@ type Types = {
       id: number;
       createdAt: Date;
       updatedAt: Date;
-      role: any;
+      role: UserRole;
       email: string;
       password: string;
       provider: string | null;
@@ -32,6 +32,16 @@ type Types = {
     };
   }[];
 };
+
+interface Review {
+  id: number;
+  carId: number;
+  content: string;
+  createdAt: Date;
+  rating: number | null;
+  user: User;
+  userId: number;
+}
 
 export const ImageAndDetails: React.FC<Types> = ({ car, reviews }) => {
   const router = useRouter();
@@ -44,7 +54,11 @@ export const ImageAndDetails: React.FC<Types> = ({ car, reviews }) => {
   const handleLike = (id: number) => {
     const carDetails = { id, name: car.name, imageUrl: car.imageUrl };
 
-    LikeDetails.some((car) => car.id === id) ? notifySecond() : notify();
+    if (LikeDetails.some((car) => car.id === id)) {
+      notifySecond();
+    } else {
+      notify();
+    }
     dispatch(
       LikeDetails.some((carDeta) => carDeta.id === id)
         ? removeCar(carDetails.id)
@@ -53,10 +67,10 @@ export const ImageAndDetails: React.FC<Types> = ({ car, reviews }) => {
   };
 
   let ratingReview = 0;
-  const averageRating = (reviews: any) => {
+  const averageRating = (reviews: Review[]) => {
     if (reviews.length === 0) return;
     const totalRating = reviews.reduce(
-      (acc: any, review: any) => acc + review.rating,
+      (acc: number, review: Review) => acc + (review.rating ?? 0),
       0
     );
     const average = Math.round(totalRating / reviews.length);
@@ -172,7 +186,6 @@ export const ImageAndDetails: React.FC<Types> = ({ car, reviews }) => {
               ${car.price}/
             </p>
             <span className="font-normal text-[#90A3BF] text-lg lg:text-2xl ">
-              {" "}
               день
             </span>
           </div>

@@ -5,7 +5,7 @@ import { Controller, useForm } from "react-hook-form";
 import { Button } from "../ui/button";
 import { ErrorMessage } from "@hookform/error-message";
 import { StarRating } from "./star-rating";
-import { Car } from "@prisma/client";
+import { Car, User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { AuthModal } from "./modal";
 import { useRouter } from "next/navigation";
@@ -15,10 +15,20 @@ type FormType = {
   rating: number | null;
 };
 
+type Comment = {
+  id: number;
+  createdAt: Date;
+  rating: number | null;
+  content: string;
+  carId: number;
+  userId: number;
+  user: User;
+};
+
 type Props = {
   car: Car;
-  comments: any[];
-  setComments: React.Dispatch<React.SetStateAction<any>>;
+  comments: Comment[];
+  setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
 };
 
 export const CreateReview: React.FC<Props> = ({ car, setComments }) => {
@@ -42,7 +52,7 @@ export const CreateReview: React.FC<Props> = ({ car, setComments }) => {
     },
   });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: { comment: string; rating: number | null }) => {
     setLoading(true);
     try {
       const response = await fetch("/api/comment", {
@@ -57,7 +67,7 @@ export const CreateReview: React.FC<Props> = ({ car, setComments }) => {
       });
       if (response.ok) {
         const newComment = await response.json();
-        setComments((prevComments: any[]) => [newComment, ...prevComments]);
+        setComments((prevComments) => [newComment, ...prevComments]);
         reset();
         setRating(0);
         router.refresh();

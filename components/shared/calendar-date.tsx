@@ -52,11 +52,13 @@ export const CalendarDate: React.FC<CalendarDateProps> = ({
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
-  const handleDateSelect = (date: Date) => {
-    const formattedDate = new Date(date);
-    onChange(format(formattedDate, "yyyy-MM-dd"));
-    onBlur?.();
-    setIsOpen(false);
+  const handleDateSelect = (date: Date | undefined) => {
+    if (date) {
+      const formattedDate = new Date(date);
+      onChange(format(formattedDate, "yyyy-MM-dd"));
+      onBlur?.();
+      setIsOpen(false);
+    }
   };
 
   return (

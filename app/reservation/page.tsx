@@ -1,12 +1,11 @@
 "use server";
 import { prisma } from "@/prisma/prisma-client";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-
 import React from "react";
 import { ReservationList } from "@/components/shared";
+import { authOptions } from "@/lib/authOptions";
 
 export const metadata = async () => {
   return {

@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { DayPicker } from "react-day-picker";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
@@ -46,7 +45,6 @@ function Calendar({
   showOutsideDays = true,
   defaultCellInCalendar,
   mode,
-  ...props
 }: Calendar & CalendarProps) {
   const today = new Date();
   const maxDate = new Date(today);
@@ -126,8 +124,8 @@ function Calendar({
     ...disabledDaysAfterReserv,
   ];
 
-  const handleDateSelect = (date: Date) => {
-    if (onSelect) {
+  const handleDateSelect = (date: Date | undefined) => {
+    if (onSelect && date) {
       if (pickUpDate && reservation) {
         const pickDateNormalize = startOfDay(pickUpDate);
         const isPrevDay = date.getTime() < pickDateNormalize.getTime();
@@ -138,7 +136,7 @@ function Calendar({
         const isRangeReserv = reservation.some((res) => {
           const resStartDate = startOfDay(new Date(res.startDate));
           const resEndDate = startOfDay(new Date(res.endDate));
-          // return resStartDate <= date && resEndDate >= date;
+
           return (
             (resStartDate <= date && resEndDate >= date) ||
             (resStartDate <= pickDateNormalize &&
@@ -216,6 +214,8 @@ function Calendar({
         ),
         day_range_start: "day-range-start",
         day_range_end: "day-range-end",
+        weekday: "hidden",
+
         day_selected:
           "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
         day_today: "bg-accent text-accent-foreground",
@@ -224,13 +224,9 @@ function Calendar({
         day_disabled: "text-muted-foreground opacity-50",
         day_range_middle:
           "aria-selected:bg-accent aria-selected:text-accent-foreground",
+
         day_hidden: "invisible",
         ...classNames,
-      }}
-      components={{
-        //@ts-ignore
-        IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
-        IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
       }}
     />
   );

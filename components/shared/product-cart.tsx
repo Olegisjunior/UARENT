@@ -35,8 +35,11 @@ export const ProductCart: React.FC<Props> = ({
 
   const handleLike = (id: number) => {
     const car = { id, name, imageUrl };
-    LikeDetails.some((car) => car.id === id) ? notifySecond() : notify();
-
+    if (LikeDetails.some((car) => car.id === id)) {
+      notifySecond();
+    } else {
+      notify();
+    }
     dispatch(
       LikeDetails.some((car) => car.id === id) ? removeCar(car.id) : addCar(car)
     );
