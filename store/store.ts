@@ -1,7 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import orderReducer from "./OrderSlice";
-import likeReducer from "./LikeSlice";
+import orderReducer, { OrderState } from "./OrderSlice";
+import likeReducer, { LikeState } from "./LikeSlice";
 
+export interface RootState {
+  order: OrderState;
+  like: LikeState;
+}
+
+export type AppDispatch = typeof store.dispatch;
 const isBrowser = typeof window !== "undefined"; // Перевірка, чи це браузер
 
 const saveState = (state: RootState) => {
@@ -18,7 +24,7 @@ const loadState = () => {
   return undefined;
 };
 
-export const store = configureStore({
+export const store = configureStore<RootState>({
   reducer: {
     order: orderReducer,
     like: likeReducer,
@@ -30,9 +36,10 @@ store.subscribe(() => {
   saveState(store.getState());
 });
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+// export type RootState = ReturnType<typeof store.getState>;
+// export type AppDispatch = typeof store.dispatch;
 
+//
 // import { configureStore } from "@reduxjs/toolkit";
 // import orderReducer from "./OrderSlice";
 // import likeReducer from "./LikeSlice";

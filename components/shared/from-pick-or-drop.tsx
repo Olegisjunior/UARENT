@@ -90,7 +90,7 @@ export const FormPickOrDrop: React.FC<Props> = ({
     if (router) {
       setIsLoading(false);
     }
-  }, [isLoading, router]);
+  }, [router]);
 
   const notify = () => toast.success("Дані збережені!");
 
@@ -115,13 +115,14 @@ export const FormPickOrDrop: React.FC<Props> = ({
           dropOffTime: data.dropOffTime,
         })
       );
-      handleSubmitFormPickOrDrop &&
+      if (handleSubmitFormPickOrDrop) {
         handleSubmitFormPickOrDrop({
           pickUpDate: data.pickUpDate,
           pickUpTime: data.pickUpTime,
           dropOffDate: data.dropOffDate,
           dropOffTime: data.dropOffTime,
         });
+      }
       notify();
     } else if (redirectData === true) {
       const LDT = new URLSearchParams({

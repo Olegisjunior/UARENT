@@ -14,6 +14,14 @@ export const metadata = async () => {
   };
 };
 
+type FilterConditions = {
+  location?: string;
+  typeId?: { in: number[] };
+  brand?: { in: string[] };
+  seats?: { in: number[] };
+  price: { gte: number; lte: number };
+};
+
 export default async function Cars(props: {
   searchParams: Record<string, string>;
 }) {
@@ -33,7 +41,7 @@ export default async function Cars(props: {
   const sortField = params.sortField || "price";
   const sortOrder = params.sortOrder === "desc" ? "desc" : "asc";
 
-  const filterConditions: { [key: string]: any } = {
+  const filterConditions: FilterConditions = {
     ...(location && { location }),
     ...(types.length > 0 && {
       typeId: {

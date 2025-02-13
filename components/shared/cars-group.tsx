@@ -1,11 +1,12 @@
 "use client";
+import { Car } from "@prisma/client";
 import { Skeleton } from "../ui/skeleton";
 import { ProductCart } from "./product-cart";
 import React from "react";
 
 type Props = {
   title?: string;
-  cars: any[] | null;
+  cars: Car[] | null;
   cols?: number;
   disableSkeleton?: boolean;
 };

@@ -127,6 +127,7 @@ export const OrderForm: React.FC<Props> = ({ session, carId }) => {
         errNotify();
       }
     } catch (error) {
+      console.error(error);
       resetOrder();
       errNotify();
     }
@@ -170,11 +171,13 @@ export const OrderForm: React.FC<Props> = ({ session, carId }) => {
         <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4 ">
           <div className="flex flex-col gap-4 justify-center items-center bg-white rounded-md my-2 w-[300px] md:w-[500px] lg:w-[600px]  xl:w-full  p-4">
             <div className="flex flex-col xl:flex-row justify-center xl:justify-stretch items-center gap-3">
-              <label className="w-32">Ім'я:</label>
+              <label className="w-32">Ім&rsquo;я:</label>
               <div className="flex-1">
                 <Input
                   placeholder="Ім'я"
-                  {...register("firstName", { required: "Ім'я обов'язкове" })}
+                  {...register("firstName", {
+                    required: "Ім'я обов'язкове",
+                  })}
                   type="text"
                   className="w-[250px] xl:w-[600px] p-2 border rounded"
                 />

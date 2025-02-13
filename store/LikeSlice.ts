@@ -6,7 +6,7 @@ interface car {
   name: string;
   imageUrl: string;
 }
-interface LikeState {
+export interface LikeState {
   cars: car[];
 }
 

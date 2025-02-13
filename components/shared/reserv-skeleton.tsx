@@ -1,9 +1,10 @@
 "use client";
 import React, { FC } from "react";
 import { Skeleton } from "../ui/skeleton";
+import { Reservation } from "@prisma/client";
 
 type Props = {
-  reservations: any;
+  reservations: Reservation[];
 };
 
 export const ReservSkeleton: FC<Props> = ({ reservations }) => {
@@ -20,7 +21,9 @@ export const ReservSkeleton: FC<Props> = ({ reservations }) => {
       {isLoading &&
         [1, 2, 3].map((item) => (
           <div key={item}>
-            {item !== 1 && <hr className="w-full bg-black h-[2px] opacity-20" />}
+            {item !== 1 && (
+              <hr className="w-full bg-black h-[2px] opacity-20" />
+            )}
             <div className="flex gap-5 justify-between items-center p-5">
               <Skeleton className="h-[200px] w-full " />
             </div>

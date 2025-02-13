@@ -49,7 +49,7 @@ export function Filters() {
     ? brandOptions.sort()
     : brandOptions.sort().slice(0, 5);
 
-  const updateFilters = () => {
+  const updateFilters = React.useCallback(() => {
     const currentParams = new URLSearchParams(window.location.search);
 
     if (types.length > 0) {
@@ -79,7 +79,7 @@ export function Filters() {
     router.push(`/cars?${currentParams.toString()}`, { shallow: true } as {
       shallow: boolean;
     } & NavigateOptions);
-  };
+  }, [types, capacitys, brands, priceRange, router]);
 
   const toggleType = (type: string) => {
     setTypes((prev) =>
@@ -102,9 +102,11 @@ export function Filters() {
   };
 
   React.useEffect(() => {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       updateFilters();
     }, 500);
+
+    return () => clearTimeout(timeout);
   }, [types, capacitys, brands, priceRange, updateFilters]);
 
   return (

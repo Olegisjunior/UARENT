@@ -7,9 +7,10 @@ import { Car } from "@prisma/client";
 import { FormPickOrDrop } from "./from-pick-or-drop";
 import Link from "next/link";
 import { Skeleton } from "../ui/skeleton";
+import { Session } from "next-auth";
 
 type Props = {
-  session: any;
+  session: Session | null;
   car: Car;
   reservation?:
     | {
@@ -55,12 +56,12 @@ export function OrderPageContainer({ car, reservation, session }: Props) {
     if (car) {
       setIsLoading(false);
     }
-  }, []);
+  }, [car]);
 
   React.useEffect(() => {
     if (!session || !session.user) {
       setIsModal(true);
-    } else if (session || session.user) {
+    } else {
       setIsModal(false);
     }
   }, [session]);

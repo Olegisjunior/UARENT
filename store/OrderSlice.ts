@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-interface OrderState {
+export interface OrderState {
   pickUpLocation: string | null;
   pickUpDate: string | null;
   pickUpTime: string | null;

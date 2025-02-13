@@ -14,10 +14,11 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { useRouter } from "next/navigation";
+import { Car, Reservation } from "@prisma/client";
 
 type Props = {
-  reservations: any;
-  sortedReservations: any[];
+  reservations: (Reservation & { car: Car })[];
+  sortedReservations: (Reservation & { car: Car })[];
 };
 
 export const ReservationList: FC<Props> = ({
@@ -25,8 +26,9 @@ export const ReservationList: FC<Props> = ({
   sortedReservations,
 }) => {
   const [isLoading, setIsLoading] = React.useState(true);
-  const [selectedReservation, setSelectedReservation] =
-    React.useState<any>(null);
+  const [selectedReservation, setSelectedReservation] = React.useState<
+    (Reservation & { car: Car }) | null
+  >(null);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
 
   const router = useRouter();
@@ -53,6 +55,7 @@ export const ReservationList: FC<Props> = ({
         router.refresh();
       }, 2000);
     } catch (error) {
+      console.error(error);
       toast.error("Не вдалося скасувати замовлення.");
     }
   };
