@@ -41,12 +41,12 @@ export const SearchInput: React.FC = () => {
   };
 
   return (
-    <div className="relative w-[175px] lg:w-[500px]" ref={dropdownRef}>
+    <div className="relative w-[175px]  lg:w-[500px]" ref={dropdownRef}>
       <div className="relative">
         <Input
           value={text}
           onChange={handleSearch}
-          className=" h-12 pl-4 pr-10 rounded-lg border border-gray-200 focus:border-primary w-full lg:w-full"
+          className=" h-8 md:h-12 pl-4 pr-10 rounded-lg border border-gray-200 focus:border-primary w-full lg:w-full"
           placeholder="Пошук машини"
         />
         {text && (

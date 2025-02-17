@@ -1,11 +1,16 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { signIn } from "next-auth/react";
 import React from "react";
 import { LoginForm } from "./forms/login-form";
 import { RegisterForm } from "./forms/registration-form";
 import { useRouter } from "next/navigation";
+import { DialogTitle } from "@radix-ui/react-dialog";
 
 interface AuthModalProps {
   open: boolean;
@@ -27,7 +32,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({ open, onClose }) => {
   };
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="w-[500px] bg-[#f6f7f9] p-10">
+      <DialogTitle />
+      <DialogDescription />
+      <DialogContent className="w-[350px] md:w-[500px] bg-[#f6f7f9] p-10">
         {type === "login" ? (
           <LoginForm onClose={handleClose} />
         ) : (

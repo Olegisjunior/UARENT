@@ -4,7 +4,7 @@ import { RequiredSymbol } from "../required-symbol";
 import { Input } from "@/components/ui/input";
 import { ErrorText } from "../error-text";
 import { EyeIcon } from "lucide-react";
-import { useForm, Controller } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string;
@@ -13,7 +13,6 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   type?: string;
 }
-
 export const FormInput: React.FC<Props> = ({
   className,
   name,
@@ -23,17 +22,13 @@ export const FormInput: React.FC<Props> = ({
   ...props
 }) => {
   const [inputType, setInputType] = React.useState(type || "text");
-
   const {
-    control,
+    register,
     formState: { errors },
     watch,
-  } = useForm();
-
-  const errorText = errors?.[name]?.message as string;
-
+  } = useFormContext();
+  const errotText = errors?.[name]?.message as string;
   const text = watch(name);
-
   const showPassword = () => {
     if (inputType === "password") {
       setInputType("text");
@@ -41,39 +36,6 @@ export const FormInput: React.FC<Props> = ({
       setInputType("password");
     }
   };
-
-  // return (
-  //   <div className={className}>
-  //     {label && (
-  //       <p className="font-medium mb-2">
-  //         {label} {required && <RequiredSymbol />}
-  //       </p>
-  //     )}
-
-  //     <div className="relative">
-  //       <Input
-  //         autoComplete="on"
-  //         id={`${name}`}
-  //         className="h-12 text-md bg-white"
-  //         {...register(name)}
-  //         type={inputType}
-  //         {...props}
-  //       />
-  //       {Boolean(text)}
-  //       {type === "password" && (
-  //         <button
-  //           type="button"
-  //           className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2"
-  //           onClick={showPassword}
-  //         >
-  //           <EyeIcon />
-  //         </button>
-  //       )}
-  //     </div>
-
-  //     {errotText && <ErrorText text={errotText} />}
-  //   </div>
-  // );
   return (
     <div className={className}>
       {label && (
@@ -81,23 +43,15 @@ export const FormInput: React.FC<Props> = ({
           {label} {required && <RequiredSymbol />}
         </p>
       )}
-
       <div className="relative">
-        <Controller
-          control={control}
-          name={name}
-          render={({ field }) => (
-            <Input
-              {...field}
-              autoComplete="on"
-              id={name}
-              className="h-12 text-md bg-white"
-              type={inputType}
-              {...props}
-            />
-          )}
+        <Input
+          className="h-12 text-md bg-white"
+          {...register(name)}
+          type={inputType}
+          {...props}
         />
-        {Boolean(text) && type === "password" && (
+        {Boolean(text)}
+        {type === "password" && (
           <button
             type="button"
             className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2"
@@ -107,8 +61,7 @@ export const FormInput: React.FC<Props> = ({
           </button>
         )}
       </div>
-
-      {errorText && <ErrorText text={errorText} />}
+      {errotText && <ErrorText text={errotText} />}
     </div>
   );
 };

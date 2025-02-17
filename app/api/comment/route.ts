@@ -5,7 +5,10 @@ export async function POST(req: Request) {
     const { carId, userId, content, rating } = await req.json();
 
     if (!carId || !userId || !content || !rating) {
-      return new Response(JSON.stringify({ error: "All fields are required." }), { status: 400 });
+      return new Response(
+        JSON.stringify({ error: "All fields are required." }),
+        { status: 400 }
+      );
     }
 
     const comment = await prisma.comment.create({
@@ -15,11 +18,14 @@ export async function POST(req: Request) {
         content,
         rating,
       },
+      include: { user: true },
     });
 
     return new Response(JSON.stringify(comment), { status: 201 });
   } catch (error) {
     console.error(error);
-    return new Response(JSON.stringify({ error: "Something went wrong." }), { status: 500 });
+    return new Response(JSON.stringify({ error: "Something went wrong." }), {
+      status: 500,
+    });
   }
 }

@@ -8,6 +8,7 @@ import { FormPickOrDrop } from "./from-pick-or-drop";
 import Link from "next/link";
 import { Skeleton } from "../ui/skeleton";
 import { Session } from "next-auth";
+import { Button } from "../ui/button";
 
 type Props = {
   session: Session | null;
@@ -94,8 +95,18 @@ export function OrderPageContainer({ car, reservation, session }: Props) {
           <div className="h-[800px] flex justify-center items-center flex-col gap-10"></div>
         </div>
       )}
+      {!session ? (
+        <div className="h-[800px] flex justify-center items-center flex-col gap-10">
+          <h1>
+            Ви не можете створити замовлення, тому що ви не зареєстровані.
+          </h1>
+          <Button className="" onClick={() => setIsModal(true)}>
+            Увійти
+          </Button>
+        </div>
+      ) : null}
 
-      <div className="flex flex-col xl:flex-row justify-between items-start gap-5 xl:gap-0 my-2 ">
+      <div className="flex flex-col items-center xl:flex-row justify-between xl:items-start gap-5 xl:gap-0 my-2 ">
         <div className=" flex-col gap-y-2 flex justify-center items-center">
           <div className="bg-white p-3 rounded-lg w-[300px] md:w-full">
             <FormPickOrDrop

@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { RegisterFormSchema, TRegisterFormValues } from "./schemas";
@@ -12,8 +11,6 @@ interface Props {
   onClose?: VoidFunction;
   onSwitch: () => void;
 }
-const notify = () => toast.success("Реєстрація успішна");
-const notifyError = () => toast.error("Помилка реєстрації");
 
 export const RegisterForm: React.FC<Props> = ({ onClose, onSwitch }) => {
   const form = useForm<TRegisterFormValues>({
@@ -25,6 +22,9 @@ export const RegisterForm: React.FC<Props> = ({ onClose, onSwitch }) => {
       confirmPassword: "",
     },
   });
+
+  const notify = () => toast.success("Реєстрація успішна");
+  const notifyError = () => toast.error("Помилка реєстрації");
 
   const onSubmit = async (data: TRegisterFormValues) => {
     try {
@@ -43,7 +43,7 @@ export const RegisterForm: React.FC<Props> = ({ onClose, onSwitch }) => {
   return (
     <FormProvider {...form}>
       <form
-        className="flex flex-col gap-5"
+        className="flex flex-col gap-5 "
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <div className="flex justify-between items-center">
@@ -52,18 +52,30 @@ export const RegisterForm: React.FC<Props> = ({ onClose, onSwitch }) => {
           </div>
         </div>
 
-        <FormInput name="email" label="Електронна пошта" required />
-        <FormInput name="name" label="Ім'я" required />
-        <FormInput name="password" label="Пароль" type="password" required />
+        <FormInput
+          name="email"
+          label="Електронна пошта"
+          required
+          defaultValue={""}
+        />
+        <FormInput name="name" label="Ім'я" required defaultValue={""} />
+        <FormInput
+          name="password"
+          label="Пароль"
+          type="password"
+          required
+          defaultValue={""}
+        />
         <FormInput
           name="confirmPassword"
           label="Пароль"
           type="password"
           required
+          defaultValue={""}
         />
 
         <Button
-          disabled={form.formState.isSubmitting}
+          // disabled={form.formState.isSubmitting}
           type="submit"
           className="h-12 text-base"
         >

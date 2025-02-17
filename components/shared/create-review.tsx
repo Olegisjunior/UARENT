@@ -8,7 +8,7 @@ import { StarRating } from "./star-rating";
 import { Car, User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { AuthModal } from "./modal";
-import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 type FormType = {
   comment: string;
@@ -37,7 +37,6 @@ export const CreateReview: React.FC<Props> = ({ car, setComments }) => {
   const [rating, setRating] = React.useState(0);
   const [loading, setLoading] = React.useState(false);
   const session = useSession();
-  const router = useRouter();
   const user = session.data?.user;
   const {
     handleSubmit,
@@ -52,6 +51,9 @@ export const CreateReview: React.FC<Props> = ({ car, setComments }) => {
     },
   });
 
+  const notify = () => toast.success("Відгук створено!");
+  const notifySecond = () => toast.error("Сталась помилка!");
+
   const onSubmit = async (data: { comment: string; rating: number | null }) => {
     setLoading(true);
     try {
@@ -61,7 +63,7 @@ export const CreateReview: React.FC<Props> = ({ car, setComments }) => {
         body: JSON.stringify({
           content: data.comment,
           carId: car.id,
-          userId: 2,
+          userId: Number(user?.id),
           rating: rating,
         }),
       });
@@ -70,9 +72,10 @@ export const CreateReview: React.FC<Props> = ({ car, setComments }) => {
         setComments((prevComments) => [newComment, ...prevComments]);
         reset();
         setRating(0);
-        router.refresh();
+        notify();
       } else {
         const error = await response.json();
+        notifySecond();
         alert(`Failed: ${error.error}`);
       }
     } catch (error) {

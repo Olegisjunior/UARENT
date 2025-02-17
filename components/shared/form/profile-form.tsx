@@ -12,12 +12,15 @@ import {
 } from "../modal/forms/schemas";
 import { FormInput } from "./form-input";
 import { updateUserInfo } from "@/app/actions";
+import { toast } from "react-toastify";
 
 type Props = {
   data: User;
 };
 
 export const ProfileForm: React.FC<Props> = ({ data }) => {
+  const isEditable = data.provider === null;
+
   const form = useForm({
     resolver: zodResolver(RegisterFormSchema),
     defaultValues: {
@@ -28,6 +31,9 @@ export const ProfileForm: React.FC<Props> = ({ data }) => {
     },
   });
 
+  const notify = () => toast.success("Редагування прошло успішно!");
+  const notify2 = () => toast.error("Редагування не прошло успішно!");
+
   const onSubmit = async (data: TRegisterFormValues) => {
     try {
       await updateUserInfo({
@@ -35,8 +41,9 @@ export const ProfileForm: React.FC<Props> = ({ data }) => {
         name: data.name,
         password: data.password,
       });
+      notify();
     } catch (error) {
-      alert("Помилка редагування");
+      notify2();
       console.error(error);
     }
   };
@@ -50,6 +57,11 @@ export const ProfileForm: React.FC<Props> = ({ data }) => {
   return (
     <Container className="my-10 flex flex-col justify-center items-center mx-5 lg:mx-auto ">
       <h1 className="font-bold text-2xl">Особисті дані</h1>
+      {!isEditable && (
+        <p className="text-red-500 text-sm mt-2">
+          Ви авторизовані через {data.provider}. Зміна даних недоступна.
+        </p>
+      )}
       <FormProvider {...form}>
         <form
           className="flex flex-col justify-center items-center gap-5 w-96 mt-10"
@@ -60,12 +72,14 @@ export const ProfileForm: React.FC<Props> = ({ data }) => {
             name="email"
             label="Електронна пошта"
             required
+            disabled={!isEditable}
           />
           <FormInput
             className="w-[300px] lg:w-[500px]"
             name="name"
             label="Ім'я"
             required
+            disabled={!isEditable}
           />
 
           <FormInput
@@ -74,6 +88,7 @@ export const ProfileForm: React.FC<Props> = ({ data }) => {
             name="password"
             label="Новий пароль"
             required
+            disabled={!isEditable}
           />
           <FormInput
             className="w-[300px] lg:w-[500px]"
@@ -81,10 +96,11 @@ export const ProfileForm: React.FC<Props> = ({ data }) => {
             name="confirmPassword"
             label="Повторіть пароль"
             required
+            disabled={!isEditable}
           />
 
           <Button
-            disabled={form.formState.isSubmitting}
+            disabled={!isEditable || form.formState.isSubmitting}
             className="text-base w-[200px]"
             type="submit"
           >
