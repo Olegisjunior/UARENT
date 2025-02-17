@@ -1,8 +1,10 @@
 "use server";
+import { authOptions } from "@/lib/authOptions";
 import { prisma } from "@/prisma/prisma-client";
 import { Prisma } from "@prisma/client";
 import { hashSync } from "bcrypt";
-import { getSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
+// import { getSession } from "next-auth/react";
 
 export async function regUser(data: Prisma.UserCreateInput) {
   try {
@@ -32,21 +34,23 @@ export async function regUser(data: Prisma.UserCreateInput) {
 
 export async function updateUserInfo(body: Prisma.UserCreateInput) {
   try {
-    const currentUser = await getSession();
+    const session = await getServerSession(authOptions);
+    const user = session?.user;
 
-    if (!currentUser) {
+    if (user) {
+      await prisma.user.update({
+        where: {
+          id: Number(user.id),
+        },
+        data: {
+          email: body.email,
+          name: body.name,
+          password: hashSync(body.password, 10),
+        },
+      });
+    } else {
       throw new Error("Користувач не найдений");
     }
-
-    await prisma.user.update({
-      where: {
-        id: Number(currentUser.user.id),
-      },
-      data: {
-        ...body,
-        password: hashSync(body.password, 10),
-      },
-    });
   } catch (error) {
     console.log("Error [UPDATE_USER]", error);
     throw error;

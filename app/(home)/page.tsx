@@ -73,8 +73,16 @@ export default async function Home() {
 // Переглянути всі лоадери Авторизації (воно не має перше показувати що я не авторизований а аж потім показувати що все так ия авторизований.. ) перевірку треба змінити YES
 // скасувати оренду (видалити резервацію на сторінці резервацій) YES
 
-// post github
-// post vercel
+// post github YES
+// post vercel YES
+// Comments creating with another client than who comment! Problem! YES
+// fix auth YES
+// Form pick or drop in order не показується дізейбл на днях до першої дати (local all working)
+// Profile if u google or github, u can't change password or email YES
+// Icon always reload YES
+// order page when i am not authorized YES
+// mobile design on order page (non-centered) YES
+// mobile design Auth Modal'a YES
 
 // refactoring all, to arhitecture papok
 

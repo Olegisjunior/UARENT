@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { TFormLoginValues, formLoginSchema } from "./schemas";
@@ -30,9 +31,7 @@ export const LoginForm: React.FC<Props> = ({ onClose }) => {
       if (!resp?.ok) {
         throw Error();
       }
-
       notify();
-
       onClose?.();
     } catch (error) {
       notifyError();
@@ -55,11 +54,22 @@ export const LoginForm: React.FC<Props> = ({ onClose }) => {
           </div>
         </div>
 
-        <FormInput name="email" label="Електронна пошта" required />
-        <FormInput name="password" label="Пароль" type="password" required />
+        <FormInput
+          name="email"
+          label="Електронна пошта"
+          required
+          defaultValue={""}
+        />
+        <FormInput
+          name="password"
+          label="Пароль"
+          type="password"
+          required
+          defaultValue={""}
+        />
 
         <Button
-          disabled={form.formState.isSubmitting}
+          // disabled={form.formState.isSubmitting}
           type="submit"
           className="h-12 text-base"
         >

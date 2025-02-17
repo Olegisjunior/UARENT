@@ -18,7 +18,8 @@ export default function RootLayout({
   return (
     <StoreProvider>
       <html lang="en">
-        <link type="image/png" rel="icon" href="./favicon1.png" />
+        <link type="image/png" rel="icon" href="/favicon1.png" />
+
         <Providers>
           <body className={`${Roboto.variable} antialiased`}>
             <div className="bg-white mb-2 p-2 border-b w-full border-[#1A202C] border-opacity-40">
